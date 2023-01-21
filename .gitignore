@@ -14,3 +14,4 @@ src/06parallel/race_condition
 src/06parallel/chans
 src/06parallel/parallel_incrementer
 src/06parallel/parallel_incrementer_chans
+src/06parallel/list6
