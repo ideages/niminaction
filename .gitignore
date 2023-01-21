@@ -1,1 +1,16 @@
 .DS_Store
+.DS_Store
+.DS_Store
+src/.DS_Store
+src/06parallel/pagecounts-20160101-050000
+src/.DS_Store
+.DS_Store
+src/06parallel/sequential_counts
+src/06parallel/sequential_counts2
+src/06parallel/sequential_counts3
+src/.DS_Store
+.DS_Store
+src/06parallel/race_condition
+src/06parallel/chans
+src/06parallel/parallel_incrementer
+src/06parallel/parallel_incrementer_chans
