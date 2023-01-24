@@ -11,11 +11,10 @@ Nim in action 中文翻译
 鸣谢：Araq , Dominik Picheta
 
 <https://picheta.me/>
-<https://nim-lang.org/>
-<https://nim-lang-cn.org/>
 
-英文作者大神:
-![dom96](Images/dom96.jpg)
+<https://nim-lang.org/>
+
+<https://nim-lang-cn.org/>
 
 你需要一种C的高效能力，还需要Javascript百变能力，还要有Python的优雅，Nim满足你。
 
