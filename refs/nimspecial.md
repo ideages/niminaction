@@ -136,7 +136,7 @@ randomize()
 # 创建一个序列, 其中有 20 个随机整数, 每个小于 10
 var seqRand = newSeqWith(20, random(10))
 echo seqRand
-```nim
+```
 
 `macros` 走得更远异步, 让你能分析还有操作 `AST`.
 在 Nim 当中没有列表剖析, 但是, 你可以做到比如说[用 `macro` 把这个功能加进来].
