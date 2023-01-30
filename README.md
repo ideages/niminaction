@@ -1,8 +1,6 @@
 # Nim实战中文版
 
-<https://ideages.github.io/nim-in-action>
-
-<https://ideages.github.io/Nim-in-action/>
+在线查看 <https://ideages.github.io/Nim-in-action/>
 
 其他参考Nim介绍译文：
 
