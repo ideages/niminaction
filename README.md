@@ -8,6 +8,24 @@ Nim in action 中文翻译
 
 审校：
 
+
+
+
+
+[Nim实战目录](./SUMMARY.md)
+
+
+
+其他参考Nim介绍译文：
+
+[Nim特色](./refs/nimspecial.md)
+
+[Nim 2.0 的改进](./refs/nim2.0.md)
+
+你需要一种C的高效能力，还需要Javascript百变能力，还要有Python的优雅，`Nim` 满足你。
+
+
+
 鸣谢：Araq , Dominik Picheta
 
 <https://picheta.me/>
@@ -15,8 +33,6 @@ Nim in action 中文翻译
 <https://nim-lang.org/>
 
 <https://nim-lang-cn.org/>
-
-你需要一种C的高效能力，还需要Javascript百变能力，还要有Python的优雅，Nim满足你。
 
 
 2023.1 
