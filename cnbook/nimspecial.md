@@ -10,7 +10,7 @@ ideage 编辑了部分 于 2023-01-30
 原译文：https://segmentfault.com/a/1190000002576013
 
 Nim 编程语言很让人振奋. 官方教程虽然很棒, 但只是慢吞吞介绍语言.
-而我打算快速向你栈是用 Nim 能做的, 在其他语言很难或者做不到的事情.
+而我打算快速向你展示用 Nim 能做的, 在其他语言很难或者做不到的事情.
 
 我发现 Nim 是在我为开发游戏(HookRace)寻找一个正确的工具的时候,
 这个游戏是我的 DDNet 游戏(mod of Teeworlds)后续的版本.
@@ -28,8 +28,9 @@ for i in 0..10:
 这之前, 安装 Nim 编译器.
 将代码保存为 `hello.nim` , 用 `nim c hello` 编译, 再用 `./hello` 运行二进制文件.
 要同时编译和运行, 使用 `nim -r c hello`.
-要使用优化过` release build`, 而不是 `debug build `的话, 使用 `nim -d:release c hello`.
-上面所有的配置你都可以看到下面的输出:
+要使用优化过 `release build` , 而不是 `debug build `的话, 使用 `nim -d:release c hello`.
+
+使用上面的编译选项编译运行后你可以看到下面的输出:
 
 ```bash
 H
@@ -49,7 +50,7 @@ Hello World
 
 要实现一个高效的 `CRC32` 程序你需要查一个表.
 你可以在运行时计算, 或者在源码当中使用 `magic array` 写好.
-我们这里明确一下不想要任何的 `magic number `出现在代码中, 所以(这时候)我们在运行时做:
+我们这里显然不想要任何的 `magic number `出现在代码中, 所以(这时候)我们在运行时做:
 
 ```nim
 import unsigned, strutils
@@ -89,7 +90,7 @@ echo crc32("The quick brown fox jumps over the lazy dog")
 const crc32table = createCRCTable()
 ```
 
-是的, 就是这样: 我们索要做的仅仅是把 `var` 换成是 `const`. 很妙吧?
+是的, 就是这样: 我们所要做的仅仅是把 `var` 换成是 `const`. 很妙吧?
 我们可以写同样的代码, 让它在运行时, 或者编译时执行. 不需要 `template`, 不需要元编程.
 
 **对语言进行扩展**
@@ -138,8 +139,8 @@ var seqRand = newSeqWith(20, random(10))
 echo seqRand
 ```
 
-`macros` 走得更远异步, 让你能分析还有操作 `AST`.
-在 Nim 当中没有列表剖析, 但是, 你可以做到比如说[用 `macro` 把这个功能加进来].
+`macros` 走得更远一步, 让你能分析和操作抽象语法树 `AST`.
+比如说，在 Nim 中没有列表剖析, 但是, 你可以做到（就是用 `macro` 把这个功能加进来）。
 那么对于下面的代码:
 
 ```nim
@@ -170,9 +171,9 @@ echo lc[(x,y,z) | (x <- 1..n, y <- x..n, z <- y..n,
 
 ```
 
-**向编译器加入加入你自己的优化**
+**向编译器加入你自己的优化**
 
-相对于优化自己的代码, 你不会考虑把编译器变得更聪明吗? 在 Nim 你就可以!
+相对于优化自己的代码, 你不会想把编译器变得更聪明吧? 在 Nim 中你就可以!
 
 ```nim
 var x: int
@@ -181,7 +182,7 @@ for i in 1..1_000_000_000:
 echo x
 ```
 
-这些代码(实际上没啥用)课以通过教会编译器两种优化来加速:
+这些代码(实际上没啥用)可以通过教会编译器两种优化来加速:
 
 ```nim
 template optMul{`*`(a,2)}(a: int): int =
@@ -192,7 +193,7 @@ template canonMul{`*`(a,b)}(a: int{lit}, b: int): int =
   b * a
 ```
 
-第一个是 term rewriting `template` 我们指定 `a * 2` 可以替换为 `a + a`.
+第一个模板 `template` 我们指定 `a * 2` 可以替换为 `a + a`.
 第二个我们指定乘法当中如果第一个是整型的字面量那么 `int` 可以被交换, 于是就有可能应用第一个 `tempalte`.
 
 更复杂的模式也可以实现, 比如优化 `boolean` 的逻辑:
@@ -217,7 +218,7 @@ var
 
 `s` 直接被优化为 `x` , 通过两次连续的模式应用优化为 `2`, `q` 马上得到 `0` .
 
-如果你想看用 term rewriting `tempalte` 怎么避免写大整数的内存分配,
+如果你想看用重写 `tempalte` 怎么避免写大整数的内存分配,
 查一下 `bigints` 模块 当中 `opt` 开头的 `templates`:
 
 ```nim
@@ -293,9 +294,9 @@ var y = {solo, noHook}
 y.incl 0 # Error: type mismatch
 ```
 
-你不会意外地加入另一个类型的值. 集合的内部实现是一个高效的 `bitvector`.
+你不能意外地加入另一个类型的值. 集合的内部实现是一个高效的 `bitvector`.
 
-对 `array` 来说可以可以的, 用 `enum` 来索引它们:
+对 `array` 来说可以的, 用 `enum` 来索引它们:
 
 ```nim
 var a: array[FakeTune, int]
@@ -431,7 +432,7 @@ proc printInfo(data: Data) {.exportc.} =
 
 我们定义 `Data` 类型, 用来从服务器传递给客户端.
 `printInfo` 程序会用 `data` 调用, 然后显示.
-使用` nim js client `编译. 变异结果的 JavaScript 文件在 `nimcache/client.js`.
+使用` nim js client `编译. 编译结果的 JavaScript 文件在 `nimcache/client.js`.
 
 对于服务器我们需要用到 Nimble 包管理器然后运行 `nimble install jester`.
 之后我们可以用上 Jest Web 框架来写 `server.nim`:
