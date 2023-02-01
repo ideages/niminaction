@@ -237,9 +237,8 @@ done? I get these numbers:
 
 现在，看看主动的``GC_fullCollect``调用做了什么?我得到这些数据:
 
-
 | 指标/算法 | ORC         | M&S (memForSpeed) |
-| ------- | ----------  | ---------------- |
+| ------- | ----------   |  ---------------- |
 | 平均耗时  | 274.84 *u*s | 1.49 ms           |
 | 最大耗时  | 1.10 ms     | 46.41 ms          |
 | 请求/秒   | 34948.95    | 39561.97          |
@@ -308,7 +307,7 @@ To compile your code with ORC, use `--gc:orc` on the command line.
 ## 小结
 
 要使用 ORC 编译代码，请在使用 `--gc:ORC` 命令。
-- ORC 与 Valgrind（内存检测工具） 和其他C++ 回收机制一起开箱即用。（使用 `--gc:orc-g-d:useMalloc` 编译以获得精确的 Valgrind 检查。）
+- ORC 与 Valgrind（内存检测工具） 和其他C++ 回收机制一起开箱即用。（使用 `--gc:orc -g -d:useMalloc` 编译以获得精确的 Valgrind 检查。）
 -ORC 耗费的内存比传统 GC少2倍。
 - 当内存消耗很重要时，ORC的吞吐量可能会快几个数量级。当内存消耗不那么重要时，它们的吞吐量相当。
 - ORC 不使用 CPU 特定的技术；即使编译成 Webassembly ，它也会工作的很好。
