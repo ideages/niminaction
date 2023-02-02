@@ -6,7 +6,7 @@
 * [Nim 2.0 的改进](./nim2.0.md)
 * [Nim 的 ARC/ORC 简介](./2020-10-15-introduction-to-arc-orc-in-nim.md)
 * [ ORC 卓越的 GC 算法](./2020-12-08-introducing-orc.md)
-
+* [ Nim实战补充章节：Nim 程序的文档和调试](./09a_cn.adoc)
 
 -----
 
