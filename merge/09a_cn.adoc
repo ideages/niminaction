@@ -160,7 +160,7 @@ http://sphinx-doc.org/rest.html
 ##
 ##
 ## 例子
-## ====
+## ======
 ##
 ## 下面显示些例子:
 ##
@@ -228,8 +228,8 @@ NOTE: 由于加入了分析的原因，应用程序将运行的更慢，这是�
 [[listing_1_4]]
 .一个简单的分析器例子
 ```nim
-import nimprof <1>
-import strutils <2>
+import nimprof  # <1>
+import strutils # <2>
 
 proc ab() =
   echo("Found letter")
@@ -243,13 +243,13 @@ proc diff() =
 proc analyse(x: string) =
   var i = 0
   while i < x.len:
-    case x[i] <3>
+    case x[i]         # <3>
     of Letters: ab()
     of {'0' .. '9'}: num()
     else: diff()
     i.inc
 
-for i in 0 .. 10000: <4>
+for i in 0 .. 10000:  # <4>
   analyse("uyguhijkmnbdv44354gasuygiuiolknchyqudsayd12635uha")
 ```
 

@@ -612,7 +612,7 @@ echo(&quot;Hello World&quot;)
 <span class="hljs-comment">##</span>
 <span class="hljs-comment">##</span>
 <span class="hljs-comment">## &#x4F8B;&#x5B50;</span>
-<span class="hljs-comment">## ====</span>
+<span class="hljs-comment">## ======</span>
 <span class="hljs-comment">##</span>
 <span class="hljs-comment">## &#x4E0B;&#x9762;&#x663E;&#x793A;&#x4E9B;&#x4F8B;&#x5B50;:</span>
 <span class="hljs-comment">##</span>
@@ -702,7 +702,7 @@ echo(&quot;Hello World&quot;)
 <div id="listing_1_4" class="listingblock">
 <div class="title">&#x6E05;&#x5355; 1. 4. &#x4E00;&#x4E2A;&#x7B80;&#x5355;&#x7684;&#x5206;&#x6790;&#x5668;&#x4F8B;&#x5B50;</div>
 <div class="content">
-<pre class="highlight"><code class="language-nim" data-lang="nim"><span class="hljs-keyword">import</span> nimprof (<span class="hljs-number">1</span>)
+<pre class="highlight"><code class="language-nim" data-lang="nim"><span class="hljs-keyword">import</span> nimprof  (<span class="hljs-number">1</span>)
 <span class="hljs-keyword">import</span> strutils (<span class="hljs-number">2</span>)
 
 <span class="hljs-keyword">proc</span> ab() =
@@ -717,13 +717,13 @@ echo(&quot;Hello World&quot;)
 <span class="hljs-keyword">proc</span> analyse(x: <span class="hljs-built_in">string</span>) =
   <span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>
   <span class="hljs-keyword">while</span> i &lt; x.len:
-    <span class="hljs-keyword">case</span> x[i] (<span class="hljs-number">3</span>)
+    <span class="hljs-keyword">case</span> x[i]         (<span class="hljs-number">3</span>)
     <span class="hljs-keyword">of</span> <span class="hljs-type">Letters</span>: ab()
     <span class="hljs-keyword">of</span> {&apos;<span class="hljs-number">0</span>&apos; .. &apos;<span class="hljs-number">9</span>&apos;}: num()
     <span class="hljs-keyword">else</span>: diff()
     i.inc
 
-<span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-number">0</span> .. <span class="hljs-number">10000</span>: (<span class="hljs-number">4</span>)
+<span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-number">0</span> .. <span class="hljs-number">10000</span>:  (<span class="hljs-number">4</span>)
   analyse(<span class="hljs-string">&quot;uyguhijkmnbdv44354gasuygiuiolknchyqudsayd12635uha&quot;</span>)</code></pre>
 </div>
 </div>
@@ -1272,7 +1272,7 @@ Nim &#x7684;&#x8F83;&#x65B0;&#x7248;&#x672C;&#x652F;&#x6301; <code>--debugger:na
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":" Nim实战补充章节：Nim 程序的文档和调试","level":"1.5","depth":1,"next":{"title":" Nim2.0 的成本模型 ","level":"1.6","depth":1,"path":"2022-11-11-a-cost-model-for-nim_cn.md","ref":"./2022-11-11-a-cost-model-for-nim_cn.md","articles":[]},"previous":{"title":" ORC 卓越的 GC 算法","level":"1.4","depth":1,"path":"2020-12-08-introducing-orc.md","ref":"./2020-12-08-introducing-orc.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":[],"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"09a_cn.adoc","mtime":"2023-02-02T14:38:55.755Z","type":"asciidoc"},"gitbook":{"version":"3.2.3","time":"2023-02-02T14:39:08.586Z"},"basePath":".","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":" Nim实战补充章节：Nim 程序的文档和调试","level":"1.5","depth":1,"next":{"title":" Nim2.0 的成本模型 ","level":"1.6","depth":1,"path":"2022-11-11-a-cost-model-for-nim_cn.md","ref":"./2022-11-11-a-cost-model-for-nim_cn.md","articles":[]},"previous":{"title":" ORC 卓越的 GC 算法","level":"1.4","depth":1,"path":"2020-12-08-introducing-orc.md","ref":"./2020-12-08-introducing-orc.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":[],"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"09a_cn.adoc","mtime":"2023-02-02T15:06:31.891Z","type":"asciidoc"},"gitbook":{"version":"3.2.3","time":"2023-02-02T15:06:46.907Z"},"basePath":".","book":{"language":""}});
         });
     </script>
 </div>
