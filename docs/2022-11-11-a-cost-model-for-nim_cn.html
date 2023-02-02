@@ -1,0 +1,549 @@
+
+<!DOCTYPE HTML>
+<html lang="" >
+    <head>
+        <meta charset="UTF-8">
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <title> Nim2.0 的成本模型  · GitBook</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="description" content="">
+        <meta name="generator" content="GitBook 3.2.3">
+        
+        
+        
+    
+    <link rel="stylesheet" href="gitbook/style.css">
+
+    
+            
+                
+                <link rel="stylesheet" href="gitbook/gitbook-plugin-highlight/website.css">
+                
+            
+                
+                <link rel="stylesheet" href="gitbook/gitbook-plugin-search/search.css">
+                
+            
+                
+                <link rel="stylesheet" href="gitbook/gitbook-plugin-fontsettings/website.css">
+                
+            
+        
+
+    
+
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+        
+    
+    
+    <meta name="HandheldFriendly" content="true"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="gitbook/images/apple-touch-icon-precomposed-152.png">
+    <link rel="shortcut icon" href="gitbook/images/favicon.ico" type="image/x-icon">
+
+    
+    <link rel="next" href="./" />
+    
+    
+    <link rel="prev" href="09a_cn.html" />
+    
+
+    </head>
+    <body>
+        
+<div class="book">
+    <div class="book-summary">
+        
+            
+<div id="book-search-input" role="search">
+    <input type="text" placeholder="Type to search" />
+</div>
+
+            
+                <nav role="navigation">
+                
+
+
+<ul class="summary">
+    
+    
+
+    
+
+    
+        
+        
+    
+        <li class="chapter " data-level="1.1" data-path="nimspecial.html">
+            
+                <a href="nimspecial.html">
+            
+                    
+                    Nim特色
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2" data-path="nim2.0.html">
+            
+                <a href="nim2.0.html">
+            
+                    
+                    Nim 2.0 的改进
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3" data-path="2020-10-15-introduction-to-arc-orc-in-nim.html">
+            
+                <a href="2020-10-15-introduction-to-arc-orc-in-nim.html">
+            
+                    
+                    Nim 的 ARC/ORC 简介
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4" data-path="2020-12-08-introducing-orc.html">
+            
+                <a href="2020-12-08-introducing-orc.html">
+            
+                    
+                     ORC 卓越的 GC 算法
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5" data-path="09a_cn.html">
+            
+                <a href="09a_cn.html">
+            
+                    
+                     Nim实战补充章节：Nim 程序的文档和调试
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter active" data-level="1.6" data-path="2022-11-11-a-cost-model-for-nim_cn.html">
+            
+                <a href="2022-11-11-a-cost-model-for-nim_cn.html">
+            
+                    
+                     Nim2.0 的成本模型 
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="divider"></li>
+        
+        
+    
+        <li class="chapter " data-level="2.1" data-path="./">
+            
+                <a href="./">
+            
+                    
+                    简介
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.2" data-path="00a.html">
+            
+                <a href="00a.html">
+            
+                    
+                    关于本书
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.3" data-path="00w.html">
+            
+                <a href="00w.html">
+            
+                    
+                    前言
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="divider"></li>
+        
+        
+    
+        <li class="chapter " data-level="3.1" data-path="01.html">
+            
+                <a href="01.html">
+            
+                    
+                    第一章 初识Nim
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.2" data-path="02.html">
+            
+                <a href="02.html">
+            
+                    
+                    第二章 开始使用Nim
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="divider"></li>
+        
+        
+    
+        <li class="chapter " data-level="4.1" data-path="03.html">
+            
+                <a href="03.html">
+            
+                    
+                    第三章 编写一个网络聊天程序
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.2" data-path="04.html">
+            
+                <a href="04.html">
+            
+                    
+                    第四章 标准库畅游
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.3" data-path="05.html">
+            
+                <a href="05.html">
+            
+                    
+                    第五章 包管理
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.4" data-path="06.html">
+            
+                <a href="06.html">
+            
+                    
+                    第六章 并行编程
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.5" data-path="07.html">
+            
+                <a href="07.html">
+            
+                    
+                    第七章 构建一个Twitter克隆
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="divider"></li>
+        
+        
+    
+        <li class="chapter " data-level="5.1" data-path="08.html">
+            
+                <a href="08.html">
+            
+                    
+                    第八章 外部程序接口FFI
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.2" data-path="09.html">
+            
+                <a href="09.html">
+            
+                    
+                    第九章 元编程
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+
+    <li class="divider"></li>
+
+    <li>
+        <a href="https://www.gitbook.com" target="blank" class="gitbook-link">
+            Published with GitBook
+        </a>
+    </li>
+</ul>
+
+
+                </nav>
+            
+        
+    </div>
+
+    <div class="book-body">
+        
+            <div class="body-inner">
+                
+                    
+
+<div class="book-header" role="navigation">
+    
+
+    <!-- Title -->
+    <h1>
+        <i class="fa fa-circle-o-notch fa-spin"></i>
+        <a href="." > Nim2.0 的成本模型 </a>
+    </h1>
+</div>
+
+
+
+
+                    <div class="page-wrapper" tabindex="-1" role="main">
+                        <div class="page-inner">
+                            
+<div id="book-search-results">
+    <div class="search-noresults">
+    
+                                <section class="normal markdown-section">
+                                
+                                <h2 id="nim-&#x7684;&#x6210;&#x672C;&#x6A21;&#x578B;">Nim &#x7684;&#x6210;&#x672C;&#x6A21;&#x578B;</h2>
+<blockquote>
+<p>&#x8BBE;&#x8BA1;&#x4E00;&#x4E2A;&#x5B8C;&#x7F8E;&#x65E0;&#x7455;&#xFF0C;&#x65E0;&#x53EF;&#x6311;&#x5254;&#x7CFB;&#x7EDF;&#xFF0C;&#x662F;&#x4E0D;&#x53EF;&#x80FD;&#x7684;&#x3002;</p>
+<p> --- T&#xB7;S&#xB7;&#x827E;&#x7565;&#x7279;&#xFF08;&#x82F1;&#x56FD;&#x8BD7;&#x4EBA;1888 - 1965&#xFF09;</p>
+</blockquote>
+<p>&#x8FD9;&#x7BC7;&#x535A;&#x6587;&#x662F;&#x5B9E;&#x65BD;&#x6210;&#x672C;&#x6A21;&#x578B;&#x7684;&#x5F00;&#x59CB;&#xFF0C;&#x4EE3;&#x7801;&#x53EF;&#x901A;&#x8FC7; <code>Nim-devel</code>&#xFF08;&#x5373;Nim&#x7248;&#x672C;2&#xFF09;&#x83B7;&#x5F97;&#x3002;</p>
+<p>&#x6B64;&#x5B9E;&#x73B0;&#x662F;&#x4E3A;<strong>&#x5D4C;&#x5165;&#x5F0F;&#x786C;&#x5B9E;&#x65F6;&#x7CFB;&#x7EDF;</strong>&#x8BBE;&#x8BA1;&#x7684;&#x3002;&#x4E00;&#x822C;&#x6765;&#x8BF4;&#xFF0C;&#x5047;&#x8BBE;&#x60A8;&#x6709;&#x8DB3;&#x591F;&#x7684;&#x5185;&#x5B58;&#xFF08;&#x5927;&#x7EA6;&#x4E3A;<strong>64kB</strong>&#xFF09;&#xFF0C;&#x5219;&#x652F;&#x6301; Nim &#x7684;&#x6240;&#x6709;&#x8BED;&#x8A00;&#x7279;&#x6027;&#x2014;&#x2014;&#x5305;&#x62EC;&#x5F02;&#x5E38;&#x5904;&#x7406;&#x548C;&#x57FA;&#x4E8E;&#x5806;&#x7684;&#x5B58;&#x50A8;&#x3002;&#x8FD9;&#x4E9B;&#x529F;&#x80FD;&#x7684;&#x5B9E;&#x73B0;&#x4E5F;&#x53EF;&#x4EE5;&#x5728;&#x88F8;&#x673A;&#x4E0A;&#x8FD0;&#x884C;&#xFF0C;&#x65E0;&#x9700;&#x64CD;&#x4F5C;&#x7CFB;&#x7EDF;&#x3002;</p>
+<h2 id="&#x57FA;&#x4E8E;&#x5806;&#x7684;&#x5B58;&#x50A8;">&#x57FA;&#x4E8E;&#x5806;&#x7684;&#x5B58;&#x50A8;</h2>
+<p>&#x4E3A;&#x4EC0;&#x4E48;&#x5173;&#x6CE8;&#x5D4C;&#x5165;&#x5F0F;&#x3001;&#x786C;&#x5B9E;&#x65F6;&#x7CFB;&#x7EDF;&#xFF1F;&#x56E0;&#x4E3A;&#x5F53;&#x4F60;&#x505A;&#x597D;&#x8FD9;&#x4E9B;&#x5DE5;&#x4F5C;&#x65F6;&#xFF0C;&#x4F60;&#x4E5F;&#x53EF;&#x4EE5;&#x505A;&#x597D;&#x5176;&#x4ED6;&#x7684;&#x4E8B;&#x60C5;&#xFF01;&#x6240;&#x4F7F;&#x7528;&#x7684;&#x7B97;&#x6CD5;&#x4E0D;&#x5173;&#x6CE8;&#x5806;&#x5927;&#x5C0F;&#xFF1A;&#x4F8B;&#x5982;&#xFF0C; Nim &#x7684;&#x5185;&#x5B58;&#x7BA1;&#x7406;&#x5728; 64kB &#x5927;&#x5C0F;&#x7684;&#x5806;&#x4E0A;&#x8FD0;&#x884C;&#x826F;&#x597D;&#xFF0C;&#x4F46;&#x4E5F;&#x53EF;&#x4EE5;&#x6269;&#x5C55;&#x5230; 16GB &#x7684;&#x5806;&#x3002;</p>
+<p>&#x5728; Nim2 &#x4E2D;&#xFF0C;&#x53EF;&#x4EE5;&#x5728;&#x7EBF;&#x7A0B;&#x4E4B;&#x95F4;&#x6709;&#x6548;&#x5730;&#x5171;&#x4EAB;&#x5185;&#x5B58;&#xFF0C;&#x800C;&#x65E0;&#x9700;&#x590D;&#x5236;&#x3002;&#x5206;&#x914D;&#x548C;&#x91CA;&#x653E;&#x7684;&#x590D;&#x6742;&#x6027;&#x4E3A; O(1)&#xFF0C;Nim &#x7684;&#x9ED8;&#x8BA4;&#x5206;&#x914D;&#x5668;&#x662F;&#x5B8C;&#x5168;&#x65E0;&#x9501;&#x7684;&#x3002;&#x788E;&#x7247;&#x5316;&#x7A0B;&#x5EA6;&#x8F83;&#x4F4E;&#xFF08;&#x5E73;&#x5747;&#x503C;&#x4E3A;15%&#xFF0C;&#x6700;&#x574F;&#x60C5;&#x51B5;&#x4E3A;25%&#xFF09;&#xFF0C;&#x56E0;&#x4E3A;&#x5B83;&#x57FA;&#x4E8E;<a href="http://www.gii.upv.es/tlsf/" target="_blank">TLSF</a>&#x7B97;&#x6CD5;&#x3002;&#x65E0;&#x9501;&#x601D;&#x60F3;&#x6765;&#x81EA;<a href="https://github.com/microsoft/mimalloc" target="_blank">mimalloc</a>.</p>
+<p>&#x8FD9;&#x610F;&#x5473;&#x7740;  <code>new(x)</code>  &#x6216; <code>ObjectRef(fields)</code> &#x7684;&#x6210;&#x672C;&#x5BF9;&#x4E8E;&#x5206;&#x914D;&#x4E3A;  O(1) &#xFF0C;&#x5BF9;&#x4E8E;&#x6240;&#x9700;&#x7684;&#x521D;&#x59CB;&#x5316;&#x4E3A; O(<code>sizeof(x[])</code>) &#x3002;&#x5982;&#x679C;&#x5BF9;&#x8C61;&#x6784;&#x9020;&#x51FD;&#x6570; <em>&#x663E;&#x5F0F;</em> &#x521D;&#x59CB;&#x5316;&#x6BCF;&#x4E2A;&#x5B57;&#x6BB5;&#xFF0C;&#x5219; <em>&#x9690;&#x5F0F;</em> &#x521D;&#x59CB;&#x5316;&#x6B65;&#x9AA4;&#x5C06;&#x88AB;&#x4F18;&#x5316;&#x3002;</p>
+<p>&#x4ECE;&#x6839; <code>x</code> &#x5F00;&#x59CB;&#x7684;&#x5B50;&#x56FE;&#x7684;&#x6790;&#x6784;&#x6210;&#x672C;&#x662F; O&#xFF08;N&#xFF09;&#xFF0C;&#x5176;&#x4E2D; N &#x662F;&#x5B50;&#x56FE;&#x7684;&#x8282;&#x70B9;&#x6570;&#x3002;&#x975E;&#x5FAA;&#x73AF;&#x6570;&#x636E;&#x7684;&#x5B50;&#x56FE;&#x5728;&#x5176;&#x6839;&#x7684;&#x5F15;&#x7528;&#x8BA1;&#x6570;&#x8FBE;&#x5230;0&#x65F6;&#x7ACB;&#x5373;&#x88AB;&#x6790;&#x6784;&#x9500;&#x6BC1;&#x3002;</p>
+<p>&#x5FAA;&#x73AF;&#x6570;&#x636E;&#x5F88;&#x96BE;&#x63A8;&#x7406;&#xFF0C;&#x6700;&#x597D;&#x907F;&#x514D;&#x3002;&#x7136;&#x800C;&#xFF0C;&#x5982;&#x679C;&#x60A8;&#x6700;&#x7EC8;&#x521B;&#x5EFA;&#x4E86;&#x5FAA;&#x73AF;&#x6570;&#x636E;&#xFF0C;&#x5219;&#x7CFB;&#x7EDF;&#x59CB;&#x7EC8;&#x4FDD;&#x6301;&#x201C;&#x786E;&#x5B9A;&#x6027;&#x201D;&#x548C;&#x54CD;&#x5E94;&#x6027;&#x3002;&#x60A8;&#x53EF;&#x4EE5;&#x901A;&#x8FC7;&#x65B0;&#x7684; API &#x8C03;&#x7528;&#x5FAA;&#x73AF;&#x6536;&#x96C6;&#x5668;&#xFF1A;</p>
+<pre><code class="lang-nim"><span class="hljs-keyword">proc</span> <span class="hljs-type">GC_runOrc</span>*()
+  <span class="hljs-comment">## &#x5F3A;&#x5236;&#x4E00;&#x6B21;&#x5FAA;&#x73AF;&#x6536;&#x96C6;&#x3002;&#x8FD0;&#x884C;&#x65F6;&#x53D6;&#x51B3;&#x4E8E;&#x7A0B;&#x5E8F;&#xFF0C;&#x4F46;&#x4E0D;&#x8DDF;&#x8E2A;&#x975E;&#x5FAA;&#x73AF;&#x5BF9;&#x8C61;&#x3002;</span>
+
+<span class="hljs-keyword">proc</span> <span class="hljs-type">GC_enableOrc</span>*()
+  <span class="hljs-comment">## &#x542F;&#x7528; `--mm:orc` &#x7684;&#x5FAA;&#x73AF;&#x6536;&#x96C6;&#x5B50;&#x7CFB;&#x7EDF;&#x3002;</span>
+
+<span class="hljs-keyword">proc</span> <span class="hljs-type">GC_disableOrc</span>*()
+  <span class="hljs-comment">## &#x7981;&#x7528; `--mm:orc` &#x7684;&#x5FAA;&#x73AF;&#x6536;&#x96C6;&#x5B50;&#x7CFB;&#x7EDF;&#x3002;</span>
+</code></pre>
+<p>&#x8FD9;&#x6837;&#x7684;&#x60F3;&#x6CD5;&#x662F;&#xFF0C;&#x4F60;&#x53EF;&#x4EE5;&#x5728;&#x7A0B;&#x5E8F; &#x201C;&#x65B9;&#x4FBF;&#x201D; &#x7684;&#x65F6;&#x5019;&#x5B89;&#x6392;&#x4E00;&#x6B21;&#x5FAA;&#x73AF;&#x6536;&#x96C6;&#x3002;&#x5C31;&#x662F;&#x8BF4;&#xFF0C;&#x5728;&#x7A0B;&#x5E8F;&#x95F2;&#x65F6;&#x6536;&#x96C6;&#x3002;&#x7136;&#x800C;&#xFF0C;&#x5728;&#x6211;&#x5BF9; Nim &#x5F02;&#x6B65;&#x4E8B;&#x4EF6;&#x5FAA;&#x73AF;&#x7684;&#x5B9E;&#x9A8C;&#x4E2D;&#xFF0C;&#x6211;&#x53D1;&#x73B0;&#x8FD9;&#x6837;&#x505A;&#x6CA1;&#x6709;&#x597D;&#x5904;&#x3002;&#x8FD9;&#x91CC;&#x8981;&#x5438;&#x53D6;&#x7684;&#x6559;&#x8BAD;&#x662F; <strong>&#x201C;&#x653E;&#x677E;&#xFF0C;&#x4F60;&#x4F1A;&#x6CA1;&#x4E8B;&#x7684;&#x201D;</strong>&#x3002;</p>
+<h2 id="&#x786E;&#x5B9A;&#x6027;&#x5F02;&#x5E38;&#x5904;&#x7406;">&#x786E;&#x5B9A;&#x6027;&#x5F02;&#x5E38;&#x5904;&#x7406;</h2>
+<h3 id="o1-&#x4E2D;&#x7684;&#x5B50;&#x7C7B;&#x578B;&#x68C0;&#x67E5;">O(1) &#x4E2D;&#x7684;&#x5B50;&#x7C7B;&#x578B;&#x68C0;&#x67E5;</h3>
+<p>&#x4ECE; Nim2 &#x5F00;&#x59CB;&#xFF0C; <code>of</code> &#x8FD0;&#x7B97;&#x7B26;&#xFF08;&#x4E5F;&#x5728; <code>except E as ex</code> &#x6784;&#x9020;&#x4E2D;&#x9690;&#x5F0F;&#x4F7F;&#x7528;&#xFF09;&#x7684;&#x901F;&#x5EA6;&#x7EC8;&#x4E8E;&#x8FBE;&#x5230;&#x4E86;&#x5E94;&#x6709;&#x7684;&#x901F;&#x5EA6;&#xFF1A;&#x5B83;&#x662F;&#x4E00;&#x4E2A;&#x8303;&#x56F4;&#x68C0;&#x67E5;&#xFF0C;&#x7136;&#x540E;&#x662F;&#x5185;&#x5B58;&#x68C0;&#x7D22;&#x3002;&#x6210;&#x672C;&#x4E3A; O(1)&#x3002;</p>
+<p>Nim &#x7684;&#x5F02;&#x5E38;&#x57FA;&#x4E8E;&#x652F;&#x6301;&#x8FD0;&#x884C;&#x65F6;&#x591A;&#x6001;&#x6027;&#x7684;&#x8001;&#x5F0F;&#x7C7B;&#x578B;&#x5C42;&#x6B21;&#x7ED3;&#x6784;&#x3002;&#x4E0D;&#x540C;&#x7684;&#x5F02;&#x5E38;&#x7C7B;&#x7684;&#x5927;&#x5C0F;&#x53EF;&#x80FD;&#x4E0D;&#x540C;&#x3002;&#x56E0;&#x6B64;&#xFF0C;&#x5728;&#x5806;&#x4E0A;&#x5206;&#x914D;&#x5F02;&#x5E38;&#x3002;&#x4F46;&#x662F;&#xFF0C;&#x53EF;&#x4EE5;&#x9884;&#x5148;&#x5206;&#x914D;&#x5B83;&#x4EEC;&#x3002;&#x6807;&#x51C6;&#x5E93;&#x8FD8;&#x6CA1;&#x6709;&#x505A;&#x5230;&#x8FD9;&#x4E00;&#x70B9; - &#x6B22;&#x8FCE;&#x62C9;&#x53D6;&#x8BF7;&#x6C42;&#x5E2E;&#x52A9;&#x6211;&#x4EEC;&#xFF01;</p>
+<h3 id="&#x57FA;&#x4E8E;-goto-&#x7684;&#x5F02;&#x5E38;&#x5904;&#x7406;">&#x57FA;&#x4E8E; Goto &#x7684;&#x5F02;&#x5E38;&#x5904;&#x7406;</h3>
+<p>&#x5F53;&#x60A8;&#x7F16;&#x8BD1;&#x4E3A; C &#x4EE3;&#x7801;&#x65F6;&#xFF0C;&#x5F02;&#x5E38;&#x5904;&#x7406;&#x662F;&#x901A;&#x8FC7;&#x8BBE;&#x7F6E;&#x4E00;&#x4E2A;&#x5185;&#x90E8;&#x9519;&#x8BEF;&#x6807;&#x5FD7;&#x6765;&#x5B9E;&#x73B0;&#x7684;&#xFF0C;&#x8BE5;&#x6807;&#x5FD7;&#x5728;&#x6BCF;&#x6B21;&#x51FD;&#x6570;&#x8C03;&#x7528;&#x540E;&#xFF0C;&#x89E6;&#x53D1;&#x5F02;&#x5E38;&#x90FD;&#x4F1A;&#x88AB;&#x67E5;&#x8BE2;&#x3002; <code>setjmp</code> &#x4E0D;&#x518D;&#x4F7F;&#x7528;&#x4E86;&#x3002;&#x8981;&#x8BA9;&#x7F16;&#x8BD1;&#x5668;&#x51C6;&#x786E;&#x63A8;&#x7406;&#x54EA;&#x4E2A;&#x8C03;&#x7528; &#x201D;&#x53EF;&#x80FD;&#x89E6;&#x53D1;&#x5F02;&#x5E38;&#x201C;&#xFF0C;&#x4F7F;&#x7528;  <code>.raises: []</code> &#x6807;&#x8BB0;&#x3002;&#x9519;&#x8BEF;&#x8DEF;&#x5F84;&#x4E0E;&#x6210;&#x529F;&#x8DEF;&#x5F84;&#x4EA4;&#x7EC7;&#x5728;&#x4E00;&#x8D77;&#xFF0C;&#x4EA7;&#x751F;&#x4E86;&#x6307;&#x4EE4;&#x7F13;&#x5B58;&#x7684;&#x4F18;&#x70B9;&#x548C;&#x7F3A;&#x70B9;&#x3002;</p>
+<p>&#x6240;&#x6D89;&#x53CA;&#x7684;&#x6210;&#x672C;&#x7EA6;&#x4E3A;&#x4E00;&#x6B21;&#x547C;&#x53EB;&#x540E;&#x7684; 2-4 &#x6761;&#x673A;&#x5668;&#x6307;&#x4EE4;&#x3002;&#xFF08;&#x5BF9;&#x4E8E;&#x6700;&#x5E38;&#x89C1;&#x7684;&#x4F53;&#x7CFB;&#x7ED3;&#x6784;&#xFF0C;&#x6709;&#x5DF2;&#x77E5;&#x7684;&#x65B9;&#x6CD5;&#x53EF;&#x4EE5;&#x5C06;&#x5176;&#x8FDB;&#x4E00;&#x6B65;&#x4F18;&#x5316;&#x4E3A;&#x4E00;&#x6761;&#x6307;&#x4EE4;&#x3002;&#xFF09;&#x8FD9;&#x4E00;&#x5F00;&#x9500;&#x5F88;&#x70E6;&#x4EBA;&#xFF0C;&#x4F46;&#x81F3;&#x5C11;&#x9488;&#x5BF9; &#x5C3E;&#x90E8;&#x8C03;&#x7528; &#x8FDB;&#x884C;&#x4E86;&#x4F18;&#x5316;&#x3002;</p>
+<h3 id="&#x57FA;&#x4E8E;&#x8868;&#x7684;&#x5F02;&#x5E38;&#x5904;&#x7406;">&#x57FA;&#x4E8E;&#x8868;&#x7684;&#x5F02;&#x5E38;&#x5904;&#x7406;</h3>
+<p>&#x5F53;&#x60A8;&#x7F16;&#x8BD1;&#x4E3A; C++ &#x4EE3;&#x7801;&#x65F6;&#xFF0C;&#x5C06;&#x4F7F;&#x7528; C++ &#x7684;&#x5F02;&#x5E38;&#x5904;&#x7406;&#x5B9E;&#x73B0; &#x2014;&#x2014; &#x901A;&#x5E38;&#x5B83;&#x57FA;&#x4E8E;&#x5F02;&#x5E38;&#x5904;&#x7406;&#x8868;&#x3002;</p>
+<h3 id="&#x54EA;&#x4E00;&#x4E2A;&#x65B9;&#x6848;&#x66F4;&#x597D;">&#x54EA;&#x4E00;&#x4E2A;&#x65B9;&#x6848;&#x66F4;&#x597D;</h3>
+<p>&#x8FD9;&#x53D6;&#x51B3;&#x4E8E;&#x60A8;&#x7684;&#x8BA1;&#x5212;&#xFF0C;&#x54EA;&#x79CD;&#x5B9E;&#x65BD;&#x7B56;&#x7565;&#x6267;&#x884C;&#x5F97;&#x66F4;&#x597D;&#x3002;</p>
+<p>&#x6709;&#x4F20;&#x8A00;&#x79F0;&#xFF0C;&#x57FA;&#x4E8E;&#x8868;&#x7684;&#x5F02;&#x5E38;&#x5B9E;&#x73B0;&#x7F3A;&#x4E4F; &#x201D;&#x53EF;&#x9884;&#x6D4B;&#x201D; &#x7684;&#x6027;&#x80FD;&#xFF0C;&#x56E0;&#x6B64;&#x4E0D;&#x5E94;&#x7528;&#x4E8E;&#x786C;&#x5B9E;&#x65F6;&#x7CFB;&#x7EDF;&#x3002;&#x5982;&#x679C;&#x8FD9;&#x4E9B;&#x4F20;&#x8A00;&#x4ECD;&#x7136;&#x5C5E;&#x5B9E;&#xFF0C;&#x90A3;&#x4E48;&#x5E94;&#x8BE5;&#x9996;&#x9009;&#x57FA;&#x4E8E; goto &#x7684;&#x5F02;&#x5E38;&#x5904;&#x7406;&#x3002;</p>
+<h2 id="&#x96C6;&#x5408;&#x53CA;&#x5176;&#x6210;&#x672C;">&#x96C6;&#x5408;&#x53CA;&#x5176;&#x6210;&#x672C;</h2>
+<h3 id="&#x6570;&#x7EC4;&#x3001;&#x5BF9;&#x8C61;&#x3001;&#x5143;&#x7EC4;&#x548C;&#x96C6;&#x5408;">&#x6570;&#x7EC4;&#x3001;&#x5BF9;&#x8C61;&#x3001;&#x5143;&#x7EC4;&#x548C;&#x96C6;&#x5408;</h3>
+<p>&#x8FD9;&#x4E9B;&#x6620;&#x5C04;&#x5230;&#x5B58;&#x50A8;&#x7684;&#x7EBF;&#x6027;&#x90E8;&#x5206;&#xFF0C;&#x76F4;&#x63A5;&#x5D4C;&#x5165;&#x5230;&#x7236;&#x96C6;&#x5408;&#x4E2D;&#x3002;&#x8FD9;&#x610F;&#x5473;&#x7740;&#x5982;&#x679C;&#x4E0D;&#x6D89;&#x53CA; <code>ref</code> &#x6216; <code>ptr</code> &#x95F4;&#x63A5;&#x5BFB;&#x5740;&#xFF0C;&#x5B83;&#x4EEC;&#x5C06;&#x5728;&#x5806;&#x6808;&#x4E0A;&#x5206;&#x914D;&#x2014;&#x2014;&#x8FD9;&#x4E0D;&#x662F;&#x4EC0;&#x4E48;&#x65B0;&#x9C9C;&#x4E8B;&#xFF0C;&#x5BF9;&#x4E8E;&#x6BCF;&#x4E2A; Nim &#x7248;&#x672C;&#x548C;&#x5185;&#x5B58;&#x7BA1;&#x7406;&#x6A21;&#x5F0F;&#x90FD;&#x662F;&#x5982;&#x6B64;&#x3002;</p>
+<p>&#x8FD9;&#x4E9B;&#x53EF;&#x4EE5;&#x76F4;&#x63A5;&#x5D4C;&#x5165;&#x7684;&#x539F;&#x56E0;&#x5F88;&#x7B80;&#x5355;&#xFF1A;&#x5B83;&#x4EEC;&#x5177;&#x6709;&#x5728;&#x7F16;&#x8BD1;&#x65F6;&#x5DF2;&#x77E5;&#x7684;&#x56FA;&#x5B9A;&#x5927;&#x5C0F;&#x3002;</p>
+<p><code>openArray</code> &#x662F;&#x4E00;&#x5BF9; <code>(pointer, length)</code> &#x5BF9;&#xFF0C;&#x53EF;&#x4EE5;&#x5B9E;&#x73B0;&#x7075;&#x6D3B;&#x7684;&#x7F13;&#x51B2;&#x533A;&#x5904;&#x7406;&#x3002;&#x6570;&#x7EC4;&#x548C;&#x5E8F;&#x5217;&#x90FD;&#x53EF;&#x4EE5;&#x4F20;&#x9012;&#x7ED9;&#x91C7;&#x7528; <code>openArray</code> &#x7684;&#x53C2;&#x6570;&#x3002;</p>
+<h3 id="&#x5E8F;&#x5217;&#x548C;&#x5B57;&#x7B26;&#x4E32;">&#x5E8F;&#x5217;&#x548C;&#x5B57;&#x7B26;&#x4E32;</h3>
+<p>Seq&#x548C;&#x5B57;&#x7B26;&#x4E32;&#x662F; <code>(len, p)</code> &#x5BF9;&#xFF0C;&#x5176;&#x4E2D;  <code>p</code> &#x6307;&#x5411;&#x5185;&#x5B58;&#x5757;&#xFF0C;&#x6709;&#x65F6;&#x79F0;&#x4E3A;&#x201C;&#x6709;&#x6548;&#x8D1F;&#x8F7D;&#x201D;&#x3002;&#x6709;&#x6548;&#x8D1F;&#x8F7D;&#x5305;&#x542B;&#x6709;&#x5173;&#x53EF;&#x7528;&#x5BB9;&#x91CF;&#x7684;&#x4FE1;&#x606F;&#xFF0C;&#x540E;&#x9762;&#x8DDF;&#x7740;&#x5143;&#x7D20;&#xFF0C;&#x8FD9;&#x4E9B;&#x5143;&#x7D20;&#x6309;&#x987A;&#x5E8F;&#x5B58;&#x50A8;&#xFF0C;&#x6CA1;&#x6709;&#x8FDB;&#x4E00;&#x6B65;&#x7684;&#x95F4;&#x63A5;&#x5BFB;&#x5740;&#x3002;</p>
+<p>Nim &#x6CA1;&#x6709;&#x5B9E;&#x73B0; C++ &#x7684; &#x201C;&#x5C0F;&#x5B57;&#x7B26;&#x4E32;&#x4F18;&#x5316;&#x201D;&#xFF08;SSO&#xFF09;&#xFF0C;&#x539F;&#x56E0;&#x5982;&#x4E0B;&#xFF1A;</p>
+<ul>
+<li>Nim &#x4E2D;&#x7684;&#x5B57;&#x7B26;&#x4E32;&#x548C; seq &#x662F;&#x4E8C;&#x8FDB;&#x5236;&#x517C;&#x5BB9;&#x7684;&#xFF1A;&#x652F;&#x6301;&#x5B83;&#x4EEC;&#x4E4B;&#x95F4;&#x7684; <code>cast</code>&#x3002;</li>
+<li>SSO <em>&#x79FB;&#x52A8;</em>&#x901F;&#x5EA6;&#x7A0D;&#x6162;&#xFF0C;Nim &#x64C5;&#x957F;&#x79FB;&#x52A8;&#x6570;&#x636E;&#x800C;&#x4E0D;&#x662F;&#x590D;&#x5236;&#x6570;&#x636E;&#x3002;</li>
+<li>SSO &#x4F7F;&#x6027;&#x80FD;&#x66F4;&#x96BE;&#x9884;&#x6D4B;&#xFF0C;&#x56E0;&#x4E3A;&#x5C0F;&#x5B57;&#x7B26;&#x4E32;&#x7684;&#x521B;&#x5EFA;&#x901F;&#x5EA6;&#x660E;&#x663E;&#x5FEB;&#x4E8E;&#x957F;&#x5B57;&#x7B26;&#x4E32;&#xFF08;&#x9700;&#x8981;&#x4ECE;&#x5206;&#x914D;&#x5668;&#x8BF7;&#x6C42;&#x5B58;&#x50A8;&#xFF09;&#x3002; SSO &#x8FD8;&#x610F;&#x5473;&#x7740;&#x957F;&#x5B57;&#x7B26;&#x4E32;&#x548C;&#x77ED;&#x5B57;&#x7B26;&#x4E32;&#x4E4B;&#x95F4;&#x5185;&#x5B58;&#x95F4;&#x63A5;&#x5BFB;&#x5740;&#x7684;&#x6570;&#x91CF;&#x4E0D;&#x540C;&#x3002;</li>
+</ul>
+<p>&#x76F8;&#x53CD;&#xFF0C;Nim &#x4E2D;&#x7684;&#x5B57;&#x7B26;&#x4E32; <em>&#x5B57;&#x9762;&#x91CF;</em> &#x4E0D;&#x4F1A;&#x5BFC;&#x81F4;&#x5206;&#x914D;&#xFF0C;&#x5E76;&#x4E14;&#x53EF;&#x4EE5;&#x5728;  O(1) &#x64CD;&#x4F5C;&#x4E2D;&#x8FDB;&#x884C;&#x6D45;&#x5C42;&#x590D;&#x5236;&#x3002;
+&#x5982;&#x679C;&#x60A8;&#x4E0D;&#x540C;&#x610F;&#x8FD9;&#x79CD;&#x8BBE;&#x8BA1;&#x9009;&#x62E9;&#xFF0C;&#x5E76;&#x4E14;&#x5E0C;&#x671B;&#x6709;&#x5B57;&#x7B26;&#x4E32;&#x6267;&#x884C; SSO&#xFF0C;&#x5219;&#x53EF;&#x4EE5;&#x4F7F;&#x7528;&#x5916;&#x90E8;&#x5305;&#xFF08;<a href="https://github.com/planetis-m/ssostrings" target="_blank">sostrings</a>&#xFF0C;<a href="https://github.com/metagn/shorteststring" target="_blank">&#x6700;&#x77ED;&#x5B57;&#x7B26;&#x4E32;</a>).</p>
+<h3 id="&#x54C8;&#x5E0C;&#x8868;">&#x54C8;&#x5E0C;&#x8868;</h3>
+<p>Nim &#x7684;&#x5927;&#x591A;&#x6570;&#x6807;&#x51C6;&#x5E93;&#x96C6;&#x5408;&#x90FD;&#x662F;&#x57FA;&#x4E8E;&#x54C8;&#x5E0C;&#x7684;&#xFF0C;&#x5E76;&#x4E14;&#x53EA;&#x63D0;&#x4F9B; &#x201C;&#x5E73;&#x5747;&#x201D; &#x60C5;&#x51B5;&#x4E0B;&#x7684;O&#xFF08;1&#xFF09;&#x884C;&#x4E3A;&#x3002;&#x901A;&#x5E38;&#xFF0C;&#x8FD9;&#x5BF9;&#x4E8E;&#x786C;&#x5B9E;&#x65F6;&#x8BBE;&#x7F6E;&#x6765;&#x8BF4;&#x4E0D;&#x591F;&#x597D;&#xFF0C;&#x56E0;&#x6B64;&#x5FC5;&#x987B;&#x907F;&#x514D;&#x8FD9;&#x4E9B;&#x8BBE;&#x7F6E;&#x3002;&#x4E8B;&#x5B9E;&#x4E0A;&#xFF0C;&#x5728; Nim &#x7684;&#x6574;&#x4E2A;&#x5386;&#x53F2;&#x4E2D;&#xFF0C;&#x4EBA;&#x4EEC;&#x53D1;&#x73B0;&#x4E86;&#x8FD9;&#x4E9B;&#x6570;&#x636E;&#x7ED3;&#x6784;&#x4E0A;&#x8868;&#x73B0;&#x4E0D;&#x4F73;&#x7684;&#x6848;&#x4F8B;&#x3002;&#x76F8;&#x53CD;&#xFF0C;&#x53EF;&#x4EE5;&#x4F7F;&#x7528;&#x57FA;&#x4E8E; BTree &#x7684;&#x5BB9;&#x5668;&#xFF0C;&#x4E3A;&#x67E5;&#x627E;/&#x63D2;&#x5165;/&#x5220;&#x9664;&#x63D0;&#x4F9B; O(log N) &#x64CD;&#x4F5C;&#x3002;&#x53EF;&#x4EE5;&#x5728;[&#x6B64;&#x5904;]&#x627E;&#x5230;&#x4E00;&#x4E2A;&#x53EF;&#x80FD;&#x7684;&#x5B9E;&#x73B0;(<a href="https://github.com/nim-ang/fusion/blob/master/src/fusion/btreetables.nim" target="_blank">https://github.com/nim-ang/fusion/blob/master/src/fusion/btreetables.nim</a>).</p>
+<h2 id="&#x7EBF;&#x7A0B;&#x3001;&#x9501;&#x548C;&#x6761;&#x4EF6;&#x53D8;&#x91CF;">&#x7EBF;&#x7A0B;&#x3001;&#x9501;&#x548C;&#x6761;&#x4EF6;&#x53D8;&#x91CF;</h2>
+<p>&#x65E0;&#x8BBA;&#x597D;&#x574F;&#xFF0C;Nim &#x90FD;&#x5C06;&#x7EBF;&#x7A0B;&#x3001;&#x9501;&#x548C;&#x6761;&#x4EF6;&#x53D8;&#x91CF;&#x6620;&#x5C04;&#x5230;&#x76F8;&#x5E94; POSIX&#xFF08;&#x6216;Windows&#xFF09;API &#x548C;&#x673A;&#x5236;&#x3002;&#x8FD9;&#x610F;&#x5473;&#x7740;&#x4ED6;&#x4EEC;&#x7684;&#x6210;&#x672C;&#x4E0D;&#x5728; Nim &#x7684;&#x63A7;&#x5236;&#x4E4B;&#x4E0B;&#x3002;&#x4F7F;&#x7528;&#x4E13;&#x4E3A;&#x786C;&#x5B9E;&#x65F6;&#x7CFB;&#x7EDF;&#x8BBE;&#x8BA1;&#x7684;&#x64CD;&#x4F5C;&#x7CFB;&#x7EDF;&#x662F;&#x4E00;&#x4E2A;&#x597D;&#x4E3B;&#x610F;&#x3002;</p>
+<p>&#x5982;&#x679C;&#x60A8;&#x7684;&#x57DF;&#x5728;&#x4F20;&#x7EDF;&#x64CD;&#x4F5C;&#x7CFB;&#x7EDF;&#x4E0A;&#x4E0D;&#x662F; &#x201C;&#x786C;&#x201D; &#x5B9E;&#x65F6;&#x800C;&#x662F; &#x201C;&#x8F6F;&#x201D; &#x5B9E;&#x65F6;&#xFF0C;&#x60A8;&#x53EF;&#x4EE5;&#x901A;&#x8FC7; <code>system.pinToCpu</code> &#x5C06;&#x7EBF;&#x7A0B;&#x56FA;&#x5B9A; &quot;pin&quot; &#x5230;&#x7279;&#x5B9A;&#x5185;&#x6838;&#x3002;&#x8FD9;&#x53EF;&#x4EE5;&#x51CF;&#x8F7B;&#x4F20;&#x7EDF;&#x64CD;&#x4F5C;&#x7CFB;&#x7EDF;&#x53EF;&#x80FD;&#x5E26;&#x6765;&#x7684;&#x6296;&#x52A8;&#x3002;</p>
+<h2 id="&#x5176;&#x4ED6;&#x9677;&#x9631;">&#x5176;&#x4ED6;&#x9677;&#x9631;</h2>
+<p>&#x5F53;&#x9488;&#x5BF9;&#x5D4C;&#x5165;&#x5F0F;&#x8BBE;&#x5907;&#x65F6;&#xFF0C;&#x6709;&#x8BB8;&#x591A;&#x5E73;&#x53F0;&#x7279;&#x5B9A;&#x7684;&#x95EE;&#x9898;&#x8D85;&#x51FA;&#x4E86;&#x672C;&#x6587;&#x6863;&#x7684;&#x8303;&#x56F4;&#x3002;&#x60A8;&#x9700;&#x8981;&#x6CE8;&#x610F;&#xFF0C; Nim &#x7684;&#x9ED8;&#x8BA4;&#x8C03;&#x8BD5;&#x6A21;&#x5F0F;&#x53EF;&#x80FD;&#x6210;&#x672C;&#x592A;&#x9AD8;&#xFF0C;&#x56E0;&#x6B64;&#x5E94;&#x7ACB;&#x5373;&#x4F7F;&#x7528; <code>-d:release</code> &#x6216;<code>--stackTrace:off --opt:size --overflowChecks:off --panics:on</code> &#x7B49;&#x5F00;&#x5173;&#x7EC4;&#x5408;&#xFF0C;&#x5E76;&#x9009;&#x62E9;&#x5BF9;&#x5E94;&#x7684; CPU &#x548C;&#x64CD;&#x4F5C;&#x7CFB;&#x7EDF;&#x4EE5;&#x53CA;&#x8BBE;&#x7F6E; C &#x4EA4;&#x53C9;&#x7F16;&#x8BD1;&#x5668;&#x3002;</p>
+<p>&#x6B22;&#x8FCE;&#x52A0;&#x5165;<a href="https://discord.com/channels/371759389889003530/756920870525730947" target="_blank">Nim &#x7684;&#x5D4C;&#x5165;&#x9891;&#x9053;</a> &#x5E76;&#x5BFB;&#x6C42;&#x5E2E;&#x52A9;&#xFF01;</p>
+<h2 id="&#x7ED3;&#x8BBA;">&#x7ED3;&#x8BBA;</h2>
+<p>Nim&#x7684;&#x65B0;&#x5B9E;&#x73B0;&#x975E;&#x5E38;&#x9002;&#x5408;&#x5D4C;&#x5165;&#x5F0F;&#x8BBE;&#x5907;&#xFF0C;&#x4F46;&#x53D7;&#x9650;&#x8BBE;&#x5907;&#x7684;&#x672C;&#x8D28;&#x662F;&#x9700;&#x8981;&#x5B9A;&#x5236;&#x5BB9;&#x5668;&#x7B49;&#x7279;&#x5B9A;&#x89E3;&#x51B3;&#x65B9;&#x6848;&#x3002;&#x5982;&#x679C;&#x4E13;&#x7528;&#x7684;&#x53EF;&#x589E;&#x957F;&#x6570;&#x7EC4;&#x5BB9;&#x5668;&#x7F3A;&#x5C11; &#x201C;&#x5BB9;&#x91CF;&#x201D; &#x5B57;&#x6BB5;&#x5E76;&#x4E14;&#x4EC5;&#x4F7F;&#x7528; 16 &#x4F4D;&#x6574;&#x6570;&#x6765;&#x8DDF;&#x8E2A;&#x5F53;&#x524D;&#x957F;&#x5EA6;&#xFF0C;&#x90A3;&#x4E48;&#x5B83;&#x53EF;&#x4EE5;&#x8282;&#x7701;&#x5185;&#x5B58;&#x3002;&#x81EA;&#x5B9A;&#x4E49;&#x5BB9;&#x5668;&#x5F88;&#x5BB9;&#x6613;&#x5728; Nim &#x4E2D;&#x521B;&#x5EFA;&#xFF0C;&#x5B83;&#x4EEC;&#x4E0E;&#x5185;&#x7F6E;&#x7ED3;&#x6784;&#x4E00;&#x8D77;&#x5DE5;&#x4F5C;&#x5F88;&#x597D;&#xFF0C;&#x56E0;&#x4E3A;&#x5B83;&#x4EEC;&#x4F7F;&#x7528;&#x901A;&#x7528;&#x7684;&#x6790;&#x6784;<a href="https://nim-lang.org/docs/destructors.html" target="_blank">&#x534F;&#x8BAE;</a>.</p>
+<p>&#x5982;&#x4F55;&#x7F16;&#x5199;&#x4E00;&#x4E2A;&#x53EF;&#x4EE5;&#x5728;&#x8FD0;&#x884C;&#x65F6;&#x589E;&#x957F;&#x800C;&#x4E0D;&#x5B58;&#x50A8;&#x5BB9;&#x91CF;&#x7684;&#x6570;&#x7EC4;&#xFF0C;&#x7559;&#x7ED9;&#x8BFB;&#x8005;&#x4E00;&#x4E2A;&#x7EC3;&#x4E60;&#x3002;&#x7F16;&#x7801;&#x5FEB;&#x4E50;&#xFF01;</p>
+<h2 id="&#x5411;-nim-&#x6350;&#x8D60;">&#x5411; Nim &#x6350;&#x8D60;</h2>
+<p>Nim &#x662F;&#x514D;&#x8D39;&#x7684;&#x5F00;&#x6E90;&#x8F6F;&#x4EF6;&#x3002;&#x6211;&#x4EEC;&#x7684;&#x5DE5;&#x4F5C;&#x548C;&#x65F6;&#x95F4;&#x90FD;&#x4E0D;&#x662F;&#x514D;&#x8D39;&#x7684;&#x3002;&#x8BF7;&#x8D5E;&#x52A9;&#x6211;&#x4EEC;&#x7684;&#x5DE5;&#x4F5C;&#xFF01;</p>
+<p>&#x60A8;&#x53EF;&#x4EE5;&#x901A;&#x8FC7;&#x4EE5;&#x4E0B;&#x65B9;&#x5F0F;&#x6350;&#x6B3E;&#xFF1A;</p>
+<ul>
+<li><a href="https://opencollective.com/nim" target="_blank">&#x5F00;&#x653E;&#x96C6;&#x4F53;</a></li>
+<li><a href="https://salt.bountysource.com/teams/nim" target="_blank">&#x5956;&#x8D4F;&#x6765;&#x6E90;</a></li>
+<li><a href="https://www.paypal.com/donate/?hosted_button_id=KYXH3BLJBHZTA" target="_blank">PayPal</a></li>
+<li>&#x6BD4;&#x7279;&#x5E01;&#x94B1;&#x5305;&#xFF1A;1BXfuKM2uvoD6mbx4g5xM3eQhLzkCK77tJ</li>
+</ul>
+<p>&#x5982;&#x679C;&#x60A8;&#x662F;&#x4E00;&#x5BB6;&#x516C;&#x53F8;&#xFF0C;&#x6211;&#x4EEC;&#x4E5F;&#x4E50;&#x610F;&#x63D0;&#x4F9B;&#x5546;&#x4E1A;&#x652F;&#x6301;&#x3002;</p>
+
+                                
+                                </section>
+                            
+    </div>
+    <div class="search-results">
+        <div class="has-results">
+            
+            <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+            <ul class="search-results-list"></ul>
+            
+        </div>
+        <div class="no-results">
+            
+            <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+            
+        </div>
+    </div>
+</div>
+
+                        </div>
+                    </div>
+                
+            </div>
+
+            
+                
+                <a href="09a_cn.html" class="navigation navigation-prev " aria-label="Previous page:  Nim实战补充章节：Nim 程序的文档和调试">
+                    <i class="fa fa-angle-left"></i>
+                </a>
+                
+                
+                <a href="./" class="navigation navigation-next " aria-label="Next page: 简介">
+                    <i class="fa fa-angle-right"></i>
+                </a>
+                
+            
+        
+    </div>
+
+    <script>
+        var gitbook = gitbook || [];
+        gitbook.push(function() {
+            gitbook.page.hasChanged({"page":{"title":" Nim2.0 的成本模型 ","author":"Andreas Rumpf (Araq)","excerpt":"This blog post is the beginning of a cost model for the implementation that is available via `Nim devel` aka Nim version 2.","level":"1.6","depth":1,"next":{"title":"简介","level":"2.1","depth":1,"path":"README.md","ref":"README.md","articles":[]},"previous":{"title":" Nim实战补充章节：Nim 程序的文档和调试","level":"1.5","depth":1,"path":"09a_cn.adoc","ref":"./09a_cn.adoc","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":[],"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"2022-11-11-a-cost-model-for-nim_cn.md","mtime":"2023-02-02T14:38:55.756Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2023-02-02T14:39:08.586Z"},"basePath":".","book":{"language":""}});
+        });
+    </script>
+</div>
+
+        
+    <script src="gitbook/gitbook.js"></script>
+    <script src="gitbook/theme.js"></script>
+    
+        
+        <script src="gitbook/gitbook-plugin-search/search-engine.js"></script>
+        
+    
+        
+        <script src="gitbook/gitbook-plugin-search/search.js"></script>
+        
+    
+        
+        <script src="gitbook/gitbook-plugin-lunr/lunr.min.js"></script>
+        
+    
+        
+        <script src="gitbook/gitbook-plugin-lunr/search-lunr.js"></script>
+        
+    
+        
+        <script src="gitbook/gitbook-plugin-sharing/buttons.js"></script>
+        
+    
+        
+        <script src="gitbook/gitbook-plugin-fontsettings/fontsettings.js"></script>
+        
+    
+
+    </body>
+</html>
+

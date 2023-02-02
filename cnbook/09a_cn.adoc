@@ -256,7 +256,7 @@ Heading +
 ``
 
 a|
-image:ch05_rst_heading.png[,120]
+image:./Images/ch05_rst_heading.png[,120]
 
 | The `=` can be any punctuation character, heading levels are determined from
 succession of headings.
@@ -305,7 +305,7 @@ a|
 ``
 
 a|
-image:ch05_rst_heading.png[,120]
+image:./Images/ch05_rst_heading.png[,120]
 
 | "=" 后可以是任何标点符号，标题的级别由连续的标题决定。
 
