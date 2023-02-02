@@ -65,10 +65,13 @@ proc writeFile(fs:string,fileName:string)=
 when isMainModule:
   var files:seq[string]
   # files = @["SUMMARY_cn.md","index_cn.md","faq_cn.md"]
-  files = @["2020-12-08-introducing-orc_cn","2020-10-15-introduction-to-arc-orc-in-nim_cn"]
+  # files = @["2020-12-08-introducing-orc_cn","2020-10-15-introduction-to-arc-orc-in-nim_cn"]
+  files = @["09a_cn.adoc"]
   for fileName in files:
-    let localfile = "../cnbook/" & fileName & ".md"
-    let mmd = "../merge/" & fileName[0..^4] & ".md"
+    # let localfile = "../cnbook/" & fileName & ".md"
+    # let mmd = "../merge/" & fileName[0..^4] & ".md"
+    let localfile = "../cnbook/" & fileName
+    let mmd = "../merge/" & fileName 
     # let mmde = "./me" & fileName
     #echo localfile,mmd
 
