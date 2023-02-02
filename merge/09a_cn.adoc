@@ -82,7 +82,7 @@ Nim 编译器包含一个为给模块生成文档的命令。将 <list_1_2，清
 
 [[fig_1_1]]
 .`test.nim` 模块的 HTML 文档
-image::ch05_docgen.png[]
+image::./Images/ch05_docgen.png[]
 
 
 
@@ -180,7 +180,7 @@ proc add*(a, b: int): int =
 
 [[fig_1_2]]
 .<<list_1_3,listing 1.3>>的文档结果
-image::ch05_math_docs.png[]
+image::./Images/ch05_math_docs.png[]
 
 
 
@@ -342,7 +342,7 @@ callgrind 工具提供的文本输出非常大，因此不能用文本编辑器�
 
 [[figure_1_3]]
 .QCacheGrind 显示的调用图 <<listing_1_4,清单 1.4>>
-image::ch05_qcachegrind.png[]
+image::./Images/ch05_qcachegrind.png[]
 
 Callgrind 工具的结果显示，在  <<listing_1_4, 清单1.4>> 的生命周期内，有更多的调用。这是因为 Nim 在转换到 C 时定义的许多 C 函数现在都可见。这些函数是实现 <<listing_1_4, 清单1.4>>中代码行为所必需的。
 
@@ -579,11 +579,11 @@ TIP: Nim 的较新版本支持 `--debugger:native` 标志，相当于指定 `--l
 
 [[figure_1_4]]
 .Windows 上的 GDB
-image::ch05_gdb_adder.PNG[]
+image::./Images/ch05_gdb_adder.PNG[]
 
 [[figure_1_5]]
 .Mac OS X 上的 LLDB
-image::ch05_lldb_adder.png[]
+image::./Images/ch05_lldb_adder.png[]
 
 一旦这些工具启动，它们将等待用户的输入。
 输入是命令的形式。这两种工具都支持一系列不同的命令，用于控制程序的执行、监视特定变量的值、设置断点等等。要获取支持的命令的完整列表，请键入 `help` 并按回车键。
@@ -613,11 +613,11 @@ Breakpoint 1: where = adder`adderInit000 + 119 at adder.nim:3, address = 0x00000
 
 [[figure_1_6]]
 .在 GDB 的第 3 行暂停执行
-image::ch05_gdb_adder_2.PNG[]
+image::./Images/ch05_gdb_adder_2.PNG[]
 
 [[figure_1_7]]
 .在 LLDB 的第 3 行暂停执行
-image::ch05_lldb_adder_2.png[]
+image::./Images/ch05_lldb_adder_2.png[]
 
 
 
@@ -650,11 +650,11 @@ image::ch05_lldb_adder_2.png[]
 
 [[figure_1_9]]
 .在 GDB 打印 `line` 变量的值
-image::ch05_gdb_adder_3.PNG[]
+image::./Images/ch05_gdb_adder_3.PNG[]
 
 [[figure_1_10]]
 .在 LLDB 打印 `line` 变量的值
-image::ch05_lldb_adder_4.png[]
+image::./Images/ch05_lldb_adder_4.png[]
 
 不幸的是，这并没有告诉我们 `line` 变量的值。我们处于低级 C 的领域，因此 `line` 变量是指向  `NimStringDesc` 类型的指针。我们可以通过在变量名的开头添加星号来取消引用此指针： `print *line_106004` 。
 
@@ -666,11 +666,11 @@ image::ch05_lldb_adder_4.png[]
 
 [[figure_1_11]]
 .在 GDB 中显示 `line` 变量的值
-image::ch05_gdb_adder_4.PNG[]
+image::./Images/ch05_gdb_adder_4.PNG[]
 
 [[figure_1_12]]
 .在 LLDB 中显示 `line` 变量的值
-image::ch05_lldb_adder_5.png[]
+image::./Images/ch05_lldb_adder_5.png[]
 
 
 

@@ -184,7 +184,7 @@ generated HTML. You should see something similar to the screenshot in
 
 [[fig_1_1]]
 .HTML documentation for the `test.nim` module
-image::ch05_docgen.png[]
+image::./Images/ch05_docgen.png[]
 {==+==}
 
 <list_1_2，清单1.2>> 显示了一个非常简单的文档注释。
@@ -193,7 +193,7 @@ Nim 编译器包含一个为给模块生成文档的命令。将 <list_1_2，清
 
 [[fig_1_1]]
 .`test.nim` 模块的 HTML 文档
-image::ch05_docgen.png[]
+image::./Images/ch05_docgen.png[]
 
 {==+==}
 
@@ -365,7 +365,7 @@ proc add*(a, b: int): int =
 
 [[fig_1_2]]
 .The resulting documentation for <<list_1_3,listing 1.3>>
-image::ch05_math_docs.png[]
+image::./Images/ch05_math_docs.png[]
 {==+==}
 
 有关更全面的参考信息，请查看链接：
@@ -401,7 +401,7 @@ proc add*(a, b: int): int =
 
 [[fig_1_2]]
 .<<list_1_3,listing 1.3>>的文档结果
-image::ch05_math_docs.png[]
+image::./Images/ch05_math_docs.png[]
 
 {==+==}
 
@@ -784,7 +784,7 @@ callgrind 工具提供的文本输出非常大，因此不能用文本编辑器�
 {==+==}
 [[figure_1_3]]
 .QCacheGrind showing the call graph of <<listing_1_4,listing 1.4>>
-image::ch05_qcachegrind.png[]
+image::./Images/ch05_qcachegrind.png[]
 
 The results of the Callgrind tool show many more calls during the lifetime of
 <<listing_1_4,listing 1.4>>. This is because many of the C
@@ -795,7 +795,7 @@ the code in <<listing_1_4,listing 1.4>>.
 
 [[figure_1_3]]
 .QCacheGrind 显示的调用图 <<listing_1_4,清单 1.4>>
-image::ch05_qcachegrind.png[]
+image::./Images/ch05_qcachegrind.png[]
 
 Callgrind 工具的结果显示，在  <<listing_1_4, 清单1.4>> 的生命周期内，有更多的调用。这是因为 Nim 在转换到 C 时定义的许多 C 函数现在都可见。这些函数是实现 <<listing_1_4, 清单1.4>>中代码行为所必需的。
 
@@ -1316,11 +1316,11 @@ TIP: Nim 的较新版本支持 `--debugger:native` 标志，相当于指定 `--l
 {==+==}
 [[figure_1_4]]
 .GDB on Windows
-image::ch05_gdb_adder.PNG[]
+image::./Images/ch05_gdb_adder.PNG[]
 
 [[figure_1_5]]
 .LLDB on Mac OS X
-image::ch05_lldb_adder.png[]
+image::./Images/ch05_lldb_adder.png[]
 
 Once these tools are launched they will wait for input from the user.
 The input is in the form of a command. Both of these tools support a range
@@ -1331,11 +1331,11 @@ full list of supported commands type in `help` and press enter.
 
 [[figure_1_4]]
 .Windows 上的 GDB
-image::ch05_gdb_adder.PNG[]
+image::./Images/ch05_gdb_adder.PNG[]
 
 [[figure_1_5]]
 .Mac OS X 上的 LLDB
-image::ch05_lldb_adder.png[]
+image::./Images/ch05_lldb_adder.png[]
 
 一旦这些工具启动，它们将等待用户的输入。
 输入是命令的形式。这两种工具都支持一系列不同的命令，用于控制程序的执行、监视特定变量的值、设置断点等等。要获取支持的命令的完整列表，请键入 `help` 并按回车键。
@@ -1388,11 +1388,11 @@ Figures <<figure_1_6,1.6>> and <<figure_1_7,1.7>> show what that will look like.
 
 [[figure_1_6]]
 .Execution paused at line 3 in GDB
-image::ch05_gdb_adder_2.PNG[]
+image::./Images/ch05_gdb_adder_2.PNG[]
 
 [[figure_1_7]]
 .Execution paused at line 3 in LLDB
-image::ch05_lldb_adder_2.png[]
+image::./Images/ch05_lldb_adder_2.png[]
 {==+==}
 
 然后，调试器将在第 3 行停止程序的执行。
@@ -1400,11 +1400,11 @@ image::ch05_lldb_adder_2.png[]
 
 [[figure_1_6]]
 .在 GDB 的第 3 行暂停执行
-image::ch05_gdb_adder_2.PNG[]
+image::./Images/ch05_gdb_adder_2.PNG[]
 
 [[figure_1_7]]
 .在 LLDB 的第 3 行暂停执行
-image::ch05_lldb_adder_2.png[]
+image::./Images/ch05_lldb_adder_2.png[]
 
 {==+==}
 
@@ -1461,7 +1461,7 @@ You should see something similar to the screenshot in <<figure_1_8,figure 1.8>>.
 {==+==}
 [[figure_1_8]]
 .The list of global variables in LLDB
-image::ch05_lldb_adder_3.png[]
+image::./Images/ch05_lldb_adder_3.png[]
 
 You can see the `line` variable at the bottom of the list as `line_106004`.
 
@@ -1474,11 +1474,11 @@ Now print the `line` variable by using the `print <var_name_here>` command, make
 {==+==}
 [[figure_1_9]]
 .Printing the value of the `line` variable in GDB
-image::ch05_gdb_adder_3.PNG[]
+image::./Images/ch05_gdb_adder_3.PNG[]
 
 [[figure_1_10]]
 .Printing the value of the `line` variable in LLDB
-image::ch05_lldb_adder_4.png[]
+image::./Images/ch05_lldb_adder_4.png[]
 
 This unfortunately tells us nothing about the value of the `line` variable.
 We are in the land of low-level C, so the `line` variable is a pointer to
@@ -1488,11 +1488,11 @@ asterisk to the beginning of the variable name: `print *line_106004`.
 
 [[figure_1_9]]
 .在 GDB 打印 `line` 变量的值
-image::ch05_gdb_adder_3.PNG[]
+image::./Images/ch05_gdb_adder_3.PNG[]
 
 [[figure_1_10]]
 .在 LLDB 打印 `line` 变量的值
-image::ch05_lldb_adder_4.png[]
+image::./Images/ch05_lldb_adder_4.png[]
 
 不幸的是，这并没有告诉我们 `line` 变量的值。我们处于低级 C 的领域，因此 `line` 变量是指向  `NimStringDesc` 类型的指针。我们可以通过在变量名的开头添加星号来取消引用此指针： `print *line_106004` 。
 
@@ -1511,20 +1511,20 @@ Doing this will show values of each of the fields in the `NimStringDesc` type. U
 {==+==}
 [[figure_1_11]]
 .Displaying the value of the `line` variable in GDB
-image::ch05_gdb_adder_4.PNG[]
+image::./Images/ch05_gdb_adder_4.PNG[]
 
 [[figure_1_12]]
 .Displaying the value of the `line` variable in LLDB
-image::ch05_lldb_adder_5.png[]
+image::./Images/ch05_lldb_adder_5.png[]
 {==+==}
 
 [[figure_1_11]]
 .在 GDB 中显示 `line` 变量的值
-image::ch05_gdb_adder_4.PNG[]
+image::./Images/ch05_gdb_adder_4.PNG[]
 
 [[figure_1_12]]
 .在 LLDB 中显示 `line` 变量的值
-image::ch05_lldb_adder_5.png[]
+image::./Images/ch05_lldb_adder_5.png[]
 
 {==+==}
 
