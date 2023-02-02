@@ -291,11 +291,11 @@ Let's consider a simple example: we have 3 objects (A, B, C), and each of them r
 
 {==+==}
 <p style="text-align: center;">
-  <img width="256" height="256" src="{{ site.baseurl }}/assets/news/images/yardanico-arc/cycle.svg">
+  <img width="256" height="256" src="{{ site.baseurl }}/images/cycle.svg">
 </p>
 {==+==}
 <p style="text-align: center;">
-  <img width="256" height="256" src="{{ site.baseurl }}/assets/news/images/yardanico-arc/cycle.svg">
+  <img width="256" height="256" src="./Images/cycle.svg">
 </p>
 {==+==}
 
