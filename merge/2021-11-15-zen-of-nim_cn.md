@@ -112,14 +112,6 @@ Nim 区分语句和表达式，大多数表达式是函数应用程序（也称�
 
 
 
-### Operators
-
-Nim has binary and unary operators:
-
-* Most of the time binary operators are simply invoked as `x @ y`
-  and unary operators as `@x`.
-* There is no explicit distinction between operators and functions, and between binary and unary operators.
-
 ### 操作符/运算符
 
 Nim 具有二元操作符和一元操作符：
@@ -553,10 +545,6 @@ except ValueError:
 
 当我提出这个例子时，我很确定编译器会产生一个bug，但它已经很好地处理了这种情况，我认为原因是其他人帮助解决了这个bug。
 
-
-### Mutability restrictions
-
-Here I am going to show and explain what the experimental `strictFuncs` switch does:
 
 ### 不变性限制
 

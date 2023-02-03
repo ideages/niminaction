@@ -259,14 +259,6 @@ echo g  # writes 108
 ```
 {==+==}
 
-### Operators
-
-Nim has binary and unary operators:
-
-* Most of the time binary operators are simply invoked as `x @ y`
-  and unary operators as `@x`.
-* There is no explicit distinction between operators and functions, and between binary and unary operators.
-
 ### 操作符/运算符
 
 Nim 具有二元操作符和一元操作符：
@@ -1153,10 +1145,6 @@ func len(n: Node): int =
     it = it.next
 ```
 {==+==}
-### Mutability restrictions
-
-Here I am going to show and explain what the experimental `strictFuncs` switch does:
-
 ### 不变性限制
 
 在这里，我将展示并解释的实验性 `strictFuncs` 严格函数开关的作用：
