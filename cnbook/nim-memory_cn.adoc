@@ -1080,7 +1080,7 @@ echo "addr t   ", t.addr.repr  <4>
 让我们在堆栈上放置一个更复杂的对象，看看会发生什么：
 
 
-```nim
+----
 type Thing = object # <1>
   a: uint32
   b: uint8
@@ -1097,7 +1097,7 @@ echo "addr t.a ", t.a.addr.repr
 echo "addr t.b ", t.b.addr.repr
 echo "addr t.c ", t.c.addr.repr
 echo "addr t   ", t.addr.repr  #<4>
-```
+----
 
 
 {==+==}
@@ -1145,7 +1145,7 @@ addr t.c ptr 0x300006 --> 0  <5>
 
 在我机器上的输出：
 
-```bash
+----
 size t.a 4  <1>
 size t.b 1
 size t.c 2
@@ -1154,7 +1154,7 @@ addr t   ptr 0x300000 --> [a = 0, b = 0, c = 0]  <3>
 addr t.a ptr 0x300000 --> 0  <4>
 addr t.b ptr 0x300004 --> 0
 addr t.c ptr 0x300006 --> 0  <5>
-```
+----
 
 
 {==+==}
