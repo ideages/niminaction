@@ -8,7 +8,6 @@
 :nofooter:
 
 {==+==}
-
 = Nim 内存模型
 :toc: left
 :toclevels: 4
