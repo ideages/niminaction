@@ -1,0 +1,1746 @@
+{==+==}
+= The Nim memory model
+:toc: left
+:toclevels: 4
+:icons: font
+:doctype: book
+:stylesheet: style.css
+:nofooter:
+
+{==+==}
+
+= Nim 内存模型
+:toc: left
+:toclevels: 4
+:icons: font
+:doctype: book
+:stylesheet: style.css
+:nofooter:
+
+
+{==+==}
+
+{==+==}
+== Introduction
+
+This is a small tutorial explaining how Nim stores data in memory. It will
+explain the essentials which every Nim programmer should know, but it will also
+dive deeper in the way Nim organizes its data structures like strings and seqs.
+
+{==+==}
+
+== 简介
+
+这是一个小教程，解释 Nim 如何在内存中存储数据。解释了 Nim 程序员应该知道的要点，让你深入了解 Nim 组织字符串和 seq 等数据结构的方式。
+
+{==+==}
+
+{==+==}
+For most practical purposes, Nim will take care of all memory management for
+your program without bothering you with the details. As long as you stick to
+the safe parts of the language, you will rarely have to work with memory
+addresses, or make explicit memory allocations. This changes however when you
+want your Nim code to interop with external C code or C libraries - in this
+case you might need to know where and how your Nim objects are stored in memory
+so you can pass this to C, or you will need to know how to access C-allocated
+data to make it accessible by Nim.
+
+{==+==}
+
+出于最实践的目的，Nim 将负责程序的所有内存管理，您不必提供详细细节。只要你使用语言的安全部分，你就很少需要处理内存地址，或者进行显式的内存分配。然而，当您希望 Nim 代码与外部 C 代码或 C 库互操作时，这种情况会发生变化——在这种情况下，您可能需要知道 Nim 对象存储在内存中的位置和方式，以便将其传递给 C ，或者您需要知道如何访问 C 分配的数据，使其可由 Nim 访问。
+
+{==+==}
+
+{==+==}
+The first parts of this document will be familiar to readers with a C or C++
+background, as a lot of it is not unique to the Nim language. In contrast, some
+things might be new to programmers coming from dynamic languages like Python or
+Javascript, where memory handling is more abstracted away.
+
+{==+==}
+
+本文档的第一部分对于具有 C 或 C++ 背景的读者来说很熟悉，因为它的很多部分并非 Nim 语言独有。相比之下，对于来自动态语言（如Python或Javascript）的程序员来说，有些东西可能是新的，因为在这些语言中，内存处理更加抽象。
+
+{==+==}
+
+{==+==}
+NOTE: Most -- if not all -- of this document applies to the C and C++ code generator,since the Javascript backend does not use raw memory but relies on Javascript objects instead.
+
+
+{==+==}
+
+注意：本文档的大部分（如果不是全部）适用于 C 和 C++ 代码生成器(Nim后端)，因为 Javascript 后端不使用原始内存，而是依赖于 Javascript 对象。
+
+{==+==}
+
+{==+==}
+== Computer memory basics
+
+This section gives a brief and abstract introduction (warning: gross
+simplifications ahead!) about computer memory, and what it looks like from the
+point of view of a CPU and a computer program.
+
+{==+==}
+
+== 计算机内存基础知识
+
+本节简要而抽象地介绍了计算机内存，以及从 CPU 和计算机程序的角度来看它是什么样子的（警告：前面要做大量的简化！）。
+
+{==+==}
+
+{==+==}
+=== Word size
+
+A computer's main memory (RAM) consists of a lot of memory locations, each of
+which has an unique address. Depending on the CPU architecture the size of each
+memory location (the "word size") typically varies between one byte (8 bit) to
+eight bytes (64 bit), while the CPU is usually also able to access large words
+as smaller chunks. Some architectures can read and write memory from arbitrary
+addresses, while others can only access memory at addresses which are a
+multiple of the word size.
+
+{==+==}
+
+== 单字节大小
+
+计算机的主存储器（RAM）由许多存储单元组成，每个存储单元都有一个唯一的地址。根据CPU 架构，每个存储器位置的大小（字大小"word size"）通常在一个字节（8位）到八个字节（64位）之间变化，而 CPU 通常也能够访问较大的字作为较小的块。有些体系结构可以从任意地址读取和写入内存，而其他体系结构只能在多个字大小的地址访问内存。
+
+{==+==}
+
+{==+==}
+The CPU accesses memory using specific instructions that allow it to read or
+write data of a given word size from or to a given address. For example, it
+might store the value 0x12345 as a 32 bit number at address 0x100000. The low
+level assembly instruction for doing this might look something like this:
+
+   mov [0x100000], 0x12345
+
+{==+==}
+
+CPU 使用专用指令访问存储器，根据字大小，指令让 CPU 从内存地址读写数据。例如，它可以将 32 位数值 0x12345 存入地址 0x100000 。执行此操作的底层汇编指令可能如下所示：
+
+   mov [0x100000], 0x12345
+
+{==+==}
+
+{==+==}
+This is what the memory on address 0x100000 will look like after the above
+instruction completes, with each column representing a byte:
+
+              00   01   02   03   04 
+            +----+----+----+----+----
+  0x100000  | 00 | 01 | 23 | 45 | ..
+            +----+----+----+----+----
+
+
+{==+==}
+
+这是上述指令完成后地址 0x100000 上的内存的样子，每一列表示一个字节：
+
+
+              00   01   02   03   04 
+            +----+----+----+----+----
+  0x100000  | 00 | 01 | 23 | 45 | ..
+            +----+----+----+----+----
+
+{==+==}
+
+{==+==}
+=== Endianess
+
+To complicate things a bit more, the actual order of bytes within a word varies
+between CPU types - some CPUs put the most significant byte first, while others
+put the least significant byte first. This is called the _endianess_ of a CPU.
+
+{==+==}
+
+== 字节顺序
+
+更为复杂的是，一个字中字节的实际顺序因 CPU 类型而异——一些 CPU 将最高有效字节放在第一位，而另一些 CPU 将最低有效字节放第一位。这称为CPU的大小端，用 _endianess_  标识。
+
+{==+==}
+
+{==+==}
+- Most CPUs these days (Intel compatible, x86, amd64, most ARM families) are
+  little endian. The integer 0x1234 is stored with the *least* significant byte
+  first: 
+ 
+     00   01
+   +----+----+
+   | 34 | 12 |
+   +----+----+
+
+{==+==}
+
+- 现在大多数 CPU（ Intel 兼容、x86、amd64、大多数 ARM 系列）都是小端的。整数 0x1234 首先存储 *最低* 有效字节：
+
+     00   01
+   +----+----+
+   | 34 | 12 |
+   +----+----+
+
+
+{==+==}
+
+{==+==}
+- Some other CPUs like Freescale or OpenRISC are big endian. The integer 0x1234
+  is stored with the *most* significant byte first. Most network protocols
+  serialize data in big endian order when sending it out on the network; this
+  is why big endian is also know as _network endian_:
+ 
+     00   01
+   +----+----+
+   | 12 | 34 |
+   +----+----+
+
+{==+==}
+
+- 其他一些 CPU 如 Freescale 或 OpenRISC 是大端的。整数 0x1234 首先存储 *最高* 有效字节。大多数网络协议在将数据发送到网络时以大端顺序串行化数据；这就是为什么大端也称为  _network endian_ ：
+
+ 
+     00   01
+   +----+----+
+   | 12 | 34 |
+   +----+----+
+
+
+{==+==}
+
+{==+==}
+Most important of all: if you want to write portable code, do not ever
+make any assumptions about your machines endianess when writing binary data
+to disk or over the network and make sure to explicitly convert your data
+to the proper endianess.
+
+
+{==+==}
+
+
+最重要的是：如果您想编写可移植的代码，在将二进制数据写入磁盘或通过网络写入时，不要对机器的端序做任何假设，应该将数据显式转换为正确的端序。
+
+{==+==}
+
+{==+==}
+== Two ways to organize memory
+
+Traditionally, C programs use two common methods used for organizing objects in
+computer memory: the _stack_ and the _heap_. Both methods serve different
+purposes and have very different characteristics. Nim code is compiled to C or
+C++ code, so Nim naturally shares the memory model of these languages.
+
+
+{==+==}
+
+
+== 组织内存的两种方式：栈和堆
+
+传统上，C 程序使用两种常用的方法来组织计算机内存中的对象： _stack_ 和 _heap_ 。这两种方法都有不同的目的和特点。Nim 代码被编译成C或C++代码，因此 Nim 自然共享这些语言的内存模型。
+
+{==+==}
+
+{==+==}
+=== The stack
+
+A stack is a region of memory where data is always added and removed from one
+end. This is called "last-in-first-out" (LIFO).
+
+
+==== Stack theory
+
+A good analogy for a stack is a stack of plates in a restaurant kitchen: new
+plates are taken out of the dishwasher and added on top; when plates are
+needed, they are also taken from the top. Plates are never inserted halfway or
+on the bottom, and plates are never taken from the middle or bottom of the
+stack.
+
+{==+==}
+
+== 栈（Stack）
+
+`stack` 译为堆栈，为防止歧义，称为栈。栈是内存的一个区域，数据总是从一端添加和删除，即 “后进先出”（LIFO）。
+
+==== 栈的原理
+
+这就好比是餐厅厨房里的一堆盘子：新盘子从洗碗机中取出，放在上面；当需要盘子时，它们也从顶部取出。盘子永远不会插在中间或底部，盘子也永远不会从堆叠的中间或底部取出。
+
+{==+==}
+
+{==+==}
+For historical reasons, computer stacks usually work top down: new data is
+added to and removed from the bottom of the stack, but this does not change the
+mechanism itself.
+
+  +--------------+ <-- stack top
+  |              |
+  |   in use     |
+  |              |
+  |              |
+  +--------------+ <-- stack pointer
+  |              |
+  |              | | new data added
+  :    free      : v on the bottom
+
+{==+==}
+
+由于历史原因，计算机栈通常是自上而下的：新数据被添加到栈底部或从栈底移除，但这不会改变出入栈的机制。
+
+  +--------------+ <-- 栈顶
+  |              |
+  |   已使用      |
+  |              |
+  |              |
+  +--------------+ <-- 栈指针
+  |              |
+  |              | | 新的数据 v 添加到底部
+  :    未用       : 
+
+{==+==}
+
+{==+==}
+The administration for a stack is pretty simple: the program needs to keep
+track of only one address which points to the current stack bottom -- this is
+commonly know as the _stack pointer_. When data is added to the stack, it is
+copied in place and the stack pointer is decreased. When data is removed from
+the stack, it is copied out and the stack pointer is again increased.
+
+{==+==}
+
+栈的管理非常简单：程序只需要跟踪一个指向当前栈底部的地址 —— 这通常称为 _stack pointer_ 。当数据被添加到栈中时，它会被复制到位，栈指针也会减少。当数据从栈中删除时，它将被复制出来，栈指针将再次增加。
+
+{==+==}
+
+{==+==}
+==== Stacks in practice
+
+In Nim, C and most other compiled languages, the stack is used for two different purposes: 
+
+- first it is used as a place to store temporary local variables These variables only exist in a function as long as the function is active (i.e. it has not returned).
+
+- the compiler also uses the stack for a different kind of bookkeeping: every
+  time a function is called, the address of the next instruction after the
+  `call` instruction is placed on the stack -- this is the _return address_.
+  When the function returns, it finds that address on the stack, and jumps to
+  it.
+
+{==+==}
+
+==== 实际中的栈
+在 Nim、 C 和大多数其他编译语言中，栈用于两个不同的目的：
+
+- 首先，它被用作存储临时局部变量的地方。这些变量只存在于函数中，只要该函数处于活动状态（即未返回）。
+
+- 编译器还使用栈进行不同类型的记录：每次调用函数时，`call` 指令后的下一条指令的地址都会被放在栈上，这就是  _return address_ 。当函数返回时，它在栈上找到该地址，并跳转到该地址。
+
+{==+==}
+
+{==+==}
+The combination data of the above two mechanisms make up a _stack frame_: this is
+a section of the stack which holds the return address of the current active
+function, together with all its local variables.
+
+During program execution, this is what the stack will look like if your program
+is nested two functions deep:
+
+  +----------------+ <-- stack top
+  | return address |
+  | variable       | <-- stack frame #1
+  | variable       |
+  | ...            |
+  +----------------+
+  | return address |
+  | variable       | <-- stack frame #2
+  | ...            |
+  +----------------+ <-- stack pointer
+  |     free       |
+  :                :
+
+{==+==}
+
+上述两种机制的数据组合构成了一个栈帧 _stack frame_ ：这是栈的一部分，其中包含当前活动函数的返回地址及其所有本地变量。
+
+在程序执行期间，如果您的程序嵌套了两个函数，堆栈将是这样的：
+
+  +----------------+ <-- 栈顶
+  | 返回地址        |
+  | 内部变量        | <-- 栈帧 #1
+  | 内部变量        |
+  | ...            |
+  +----------------+
+  | 返回地址        |
+  | 内部变量        | <-- 栈帧 #2
+  | ...            |
+  +----------------+ <-- 栈指针
+  |     未用       |
+  :                :
+
+{==+==}
+
+{==+==}
+Using the stack for both data and return addresses is a pretty neat trick and
+has the nice side effect of offering automatic storage allocation and cleanup
+for data in a program.
+
+Stacks also work nicely with threads: each thread simply has its own stack,
+storing its own local variables and holding is own stack frames.
+
+Now you know where Nim gets the information from when it generates a _stacktrace_ when it hits a run time error or exception: It will find the address of
+the innermost active function on the stack, and print its name. Then it goes
+looking further up the stack for the next level active function, all the way to
+the top. 
+
+
+{==+==}
+
+
+将栈用于数据和返回地址是一个非常巧妙的技巧，并且给程序带来了个好功能：可以给数据提供自动的内存分配和清理。
+
+栈也可以很好地与线程一起工作：每个线程都有自己的栈，存储自己的局部变量并保存自己的堆栈帧。
+
+现在，您知道 Nim 在遇到运行时错误或异常时，生成 _stacktrace_ 的栈跟踪，从何处获取信息：它将找到栈上最内部活动函数的地址，并打印其名称。然后，它在栈上进一步查找下一级活动函数，一直找到顶部。
+
+
+{==+==}
+
+{==+==}
+=== The heap
+
+Next to the stack, the heap is the other place to store data in a computer
+program. While the stack is typically used to hold local variables, the heap
+can be used for more dynamic storage.
+
+==== Heap theory
+
+A heap is a region of memory which is a bit like a warehouse. The memory region
+is called the _arena_:
+
+  :              : ^ heap can grow at the top
+  |              | |
+  |              |
+  |    free!     | <--- The heap arena
+  |              |
+  |              |
+  +--------------+
+
+{==+==}
+
+== 堆（Heap）
+
+在栈旁边，堆是计算机中存储数据的另一个位置，虽然栈通常用于保存本地变量，但堆可以用于更动态的存储。
+
+==== 堆的原理
+
+堆是一个有点像仓库的内存区域。内存区域称为堆区 _arena_ ：
+
+  :              : ^堆可以在顶部增长
+  |              | |
+  |              |
+  |  未分配！     |<---堆区域
+  |              |
+  |              |
+  +--------------+
+
+{==+==}
+
+{==+==}
+When a program wants to store data, it will first calculate how much storage it
+will need. It will then go to the warehouse clerk (the memory allocator) and
+request a place to store the data. The clerk has a ledger where it keeps track
+of all allocations in the warehouse, and it will find a free spot that is large
+enough to fit the data. It will then make an entry in the ledger that the area
+at that address and size is now taken, and it returns the address to the
+program. The program can now store and retrieve its data from this area in
+memory at will.
+
+{==+==}
+
+当程序想要存储数据时，它将首先计算它需要多少存储空间。然后，它将转到仓库管理员（内存分配器）并请求存储数据的位置。管理员有一个分类账本，它可以跟踪仓库中的所有分配情况，并且可以找到一个足够大的空闲位置来存放数据。然后，它将在分类账中输入该地址和大小的区域，并将地址返回给程序。程序现在就可以在内存中任意存储和检索该区域的数据。
+
+{==+==}
+
+{==+==}
+  :              :
+  |    free      |
+  |              |
+  +--------------+
+  |  allocated   | <--- allocation address
+  +--------------+ 
+
+The above process can be repeated, allocating other blocks on the heap, some of 
+different sizes:
+  
+  :              :
+  |    free      |
+  +--------------+
+  |              |
+  | allocated #3 |
+  |              |
+  +--------------+
+  | allocated #2 |
+  +--------------+
+  | allocated #1 |
+  +--------------+ 
+
+{==+==}
+
+
+  :              :
+  |    未分配     |
+  |              |
+  +--------------+
+  |  已分配       | <--- 分配的地址
+  +--------------+ 
+
+可以重复上述过程，在堆上分配其他大小不同的块：
+  
+  :              :
+  |    未分配     |
+  +--------------+
+  |              |
+  | 已分配 #3     |
+  |              |
+  +--------------+
+  | 已分配 #2     |
+  +--------------+
+  | 已分配 #1     |
+  +--------------+ 
+
+{==+==}
+
+{==+==}
+When the data block is no longer used, the program will tell the memory allocator the address of the block. The allocator looks up the address in the ledger, and removes the entry. This block is now free for future use. This is what the above picture looks like when block #2 is released:
+
+{==+==}
+
+当数据块不再使用时，程序将告诉内存分配器块的地址。分配器在分类账中查找地址，并删除条目。此块就可以释放，供将来使用。这是释放块 #2 时的上图：
+
+{==+==}
+
+{==+==}
+  :              :
+  |    free      |
+  +--------------+
+  |              |
+  | allocated #3 |
+  |              |
+  +--------------+
+  |    free      | <-- There's a hole in the heap!
+  +--------------+
+  | allocated #1 |
+  +--------------+ 
+
+{==+==}
+
+  :              :
+  |    未分配     |
+  +--------------+
+  |              |
+  | 已分配 #3     |
+  |              |
+  +--------------+
+  | 未分配        | <-- 堆里有个洞！
+  +--------------+
+  | 已分配 #1     |
+  +--------------+ 
+
+{==+==}
+
+{==+==}
+As you can see, the freeing of block #2 now leaves a hole in the heap, which
+might lead to problems in the future. Consider the next allocation request:
+
+{==+==}
+
+如您所看到的，释放块 #2 会在堆中留下一个洞，这可能会导致未来的问题。有下一个分配请求时：
+
+{==+==}
+
+{==+==}
+- If the size of the next allocation is smaller then the size of the hole, the
+  allocator might reuse the free space in the hole; but since the new request
+  is smaller, a new smaller hole will be left after the new block
+
+- If the size of the next allocation is bigger then the size of the hole, the
+  allocator has to find a bigger free spot somewhere, leaving the hole open.
+
+{==+==}
+
+- 如果下一个分配比洞小，分配器可以重用洞中的空闲空间；如果新的请求较小，在新的区块之后就会留下一个较小的新洞
+
+- 如果下一个分配比洞大，分配器必须在某处找到一个更大的空闲点。洞就会继续存在。
+
+{==+==}
+
+{==+==}
+The only way to effectively reuse the hole is if the next allocation is of the
+exact same size of the hole.
+
+{==+==}
+
+有效重复使用洞的唯一方法是，下一次分配的大小与洞完全相同。
+
+{==+==}
+
+{==+==}
+Heavy use of a heap with a lot of different sized objects might lead to a
+phenomenon called _fragmentation_. This means that the allocator is not able to
+effectively use 100% of the arena size to fulfil allocation requests,
+effectively wasting a part of the available memory.
+
+
+{==+==}
+
+
+大量使用具有很多不同大小对象的堆，可能会导致一种称为 _fragmentation_ 的现象。这意味着分配器不能有效地使用 100% 的内存来满足分配请求，浪费了部分可用内存。
+
+{==+==}
+
+{==+==}
+==== The heap in practice
+
+In Nim, all your data is stored on the stack, unless you explicitly request it
+to go on the heap: the `new()` proc is typically used allocate memory on the
+heap for a new object:
+
+{==+==}
+
+==== 实际中的堆
+
+在 Nim 中，所有数据都存储在栈中，除非您明确请求它进入堆： `new()` 过程通常用于在堆上，为新对象分配内存：
+
+{==+==}
+
+{==+==}
+----
+type Thing = object
+  a: int
+
+var t = new Thing
+----
+
+The above snippet will allocate memory on the heap to store an object of type
+`Thing` The _address_ of the newly allocated memory block is returned by `new`,
+which is now of type `ref Thing`. A `ref` is a special kind of pointer which is
+generally managed by Nim for you. More on this in the section
+<<Traced references and the garbage collector>>
+
+
+{==+==}
+
+----
+type Thing = object
+  a: int
+
+var t = new Thing
+----
+
+上面的代码片段将在堆上分配内存，以存储类型为 `Thing` 的对象。新分配的内存块的地址 _address_  由 `new` 返回，为 `ref Thing` 类型。 `ref` 是一种特殊的指针，通常由 Nim 为您管理。有关这一点的更多信息，请参阅 [跟踪引用和垃圾收集器] 一节。
+
+{==+==}
+
+{==+==}
+== Memory organization in Nim
+
+As long as you stick to the _safe_ parts of the language, Nim will take care of
+managing memory allocations for you. It will make sure your data is stored at
+the appropriate place, and freed when you no longer need it. However, if the
+need arises, Nim offers you full control as well, allowing you to choose
+exactly how and where to store your data.
+
+Nim offers some handy functions to allow you to inspect how your data is
+organized in memory. These will be used in the examples in the sections below
+to inspect how and where Nim stores your data:
+
+{==+==}
+
+
+== Nim 内存组织
+只要你坚持使用语言的 *安全* _safe_ 部分，Nim 就会为你管理内存的分配。它将确保您的数据存储在适当的位置，并在您不需要时释放。但是，如果需要， Nim 也可以让您自己完全控制，允许您选择存储数据的方式和位置。
+
+Nim 提供了一些方便的功能，允许您检查数据在内存中的组织方式。这些将在以下各节的示例中使用，以检查 Nim 存储数据的方式和位置：
+
+{==+==}
+
+{==+==}
+`addr(x)`:: This proc returns the address of variable `x`. For a variable of
+            type `T`, its address will have type `ptr T`
+
+`unsafeAddr(x)`:: This proc is basically the same as `addr()`, but it can be
+                  used even if Nim thinks it would not be safe to get the address
+		  of an object -- more on this later.
+
+`sizeof(x)`:: Returns the size of variable `x` in bytes
+
+`typeof(x)`:: Returns the string representation of the type of variable `x`
+
+
+{==+==}
+
+`addr(x)`:: 此过程返回变量 `x` 的地址。对于变量类型 `T` ，其地址将具有类型 `ptr T` 
+
+`unsafeAddr(x)`:: 这个过程基本上与 `addr(x)` 相同，假设 Nim 认为获取对象地址不安全，也可以使用它，稍后将详细介绍。
+
+`sizeof(x)`:: 返回变量 `x` 的字节大小。
+
+`typeof(x)`:: 返回变量 `x` 类型的字符串表示。
+
+{==+==}
+
+{==+==}
+The result of `addr(x)` and `unsafeAddr(x)` on an object of type `T` has a
+result of type `ptr T`. Nim does not know how to print this by default, so we
+will make use of `repr()` to nicely format the type for us:
+
+----
+var a: int
+echo a.addr.repr
+# ptr 0x56274ece0c60 --> 0
+----
+
+{==+==}
+
+在类型 `T` 对象上使用 `addr(x)` 和  `unsafeAddr(x)` ，返回类型为 `ptr T`。 Nim 不知道默认如何打印，因此使用 `repr()` 格式化类型：
+
+
+----
+var a: int
+echo a.addr.repr
+# ptr 0x56274ece0c60 --> 0
+----
+
+
+{==+==}
+
+
+
+{==+==}
+=== Using pointers
+
+Basically, a pointer is nothing more then a special type of variable which
+holds a memory address -- it points to something else in memory. As briefly
+mentioned above, there are two types of pointers in Nim: 
+
+- `ptr T` for _untraced references_, aka _pointers_
+- `ref T` for _traced references_, for memory that is managed by Nim
+
+{==+==}
+
+== 使用指针
+
+基本上，指针是一种特殊类型的变量，它持有一个内存地址——它指向内存中的其他东西。如上所述， Nim 中有两种类型的指针：
+
+- `ptr T` 用于 _未跟踪的引用_ ，也称为 _指针_
+- `ref T` 用于 _跟踪的引用_ ，用于 Nim 管理的内存
+
+{==+==}
+
+{==+==}
+The `ptr T` pointer type is considered _unsafe_. Pointers point to manually
+allocated objects or to objects somewhere else in memory, and it is your task
+as a programmer to make sure your pointers always point to valid data.
+
+{==+==}
+
+ `ptr T` 指针类型被视为 _不安全的_ 。指针指向手动分配的对象或内存中其他位置的对象，作为程序员，您的任务就是确保指针始终指向有效数据。
+
+{==+==}
+
+{==+==}
+When you want to access the data in the memory that the pointer points to --
+the contents of the address with that numerical index -- you need to
+_dereference_ (or in short, _deref_) the pointer.
+
+{==+==}
+
+当您想要访问指针指向内存中的数据（即具有该数字索引的地址的内容）时，需要对指针进行 _取引用_（或简而言之，_deref_）地址的数据。。
+
+{==+==}
+
+{==+==}
+In Nim you can use an empty array subscript `[]` to do this, analogous to using
+the `*` prefix operator in C. The snippet below shows how to create an alias to
+an int and change its value.
+
+{==+==}
+
+在 Nim 中，可以使用空数组下标 `[]` 来实现这一点，类似于在C中使用 `*` 前缀运算符。下面的代码片段显示了如何为 int 创建别名并更改其值。
+
+{==+==}
+
+{==+==}
+----
+var a = 20       # <1>
+var p = a.addr   # <2>
+p[] = 30 <3>
+echo a  # --> 30
+----
+
+<1> Here a normal variable `a` is declared and initialized with the value 20
+<2> `p` is a pointer of type `ptr int`, pointing to the address of int `a`
+<3> The `[]` operator is used to dereference the pointer p. As `p` is a pointer
+    of type `ptr int` which points to the memory address where `a` is stored,
+    dereferenced variable `p[]` is again of type int. The variables `a` and `p[]`
+    now refer to the exact same memory location, so assigning a value to `p[]`
+    will also change the value of `a`
+
+{==+==}
+----
+var a = 20       # <1>
+var p = a.addr   # <2>
+p[] = 30 <3>
+echo a  # --> 30
+----
+
+<1> 这里声明一个变量 `a` ，初始化为 20 。 
+<2> `p` 是类型为 `ptr int` 的指针，指向 int `a`  的地址。
+<3>  `[]` 运算符用于取指针 `p` 的引用。由于 `p` 是  `ptr int` 类型的指针，指向 `a` 的内存地址，因此取引用的变量 `p[]` 也是 `int` 类型的。变量 `a` 和  `p[]` 现在指的是相同的内存位置，因此为 `p[]` 赋值也会更改  `a` 值。
+
+{==+==}
+
+{==+==}
+For object or tuple access, Nim will perform automatic dereferencing for you:
+the normal `.` access operator can be used just as with a normal object.
+
+
+{==+==}
+
+对于对象或元组的访问，Nim 将自动执行取引用： `.`  运算符与普通对象一样使用访问引用的元素。
+
+{==+==}
+
+{==+==}
+=== The stack: local variables
+
+Local variables (also called _automatic_ variables) are the default method by
+which Nim stores your variables and data.
+
+Nim will reserve space for your variable on the stack, and it will stay there
+as long as it is in scope. In practice, this means that the variable will exist
+as long as the function in which it is declared does not return. As soon as the
+function returns the stack _unwinds_ and the variables are gone.
+
+{==+==}
+
+== 栈里的局部变量
+
+局部变量（也称为 _自动_ 变量）是 Nim 存储变量和数据的默认方法。
+
+Nim 为栈上的变量保留空间，只要它在作用域内，它就会一直保留在那里。实际上，这意味着只要声明变量的函数不返回，变量就会存在。函数一返回栈就 _展开_ ，变量就消失了。
+
+{==+==}
+
+{==+==}
+Here are some examples of variables which will be stored on the stack:
+
+----
+type Thing = object
+  a, b: int
+
+var a: int
+var b = 14
+var c: Thing
+var d = Thing(a: 5, b: 18)
+----
+
+
+{==+==}
+
+下面是一些存储在栈上的变量示例：
+
+----
+type Thing = object
+  a, b: int
+
+var a: int
+var b = 14
+var c: Thing
+var d = Thing(a: 5, b: 18)
+----
+
+{==+==}
+
+{==+==}
+=== Traced references and the garbage collector
+
+In the previous sections we saw that pointers in Nim as returned by `addr()`
+are of the type `ptr T`, but we saw that `new` returns a `ref T`.
+
+While both `ptr` and `ref` are pointers to data, there is an important
+difference between the two:
+
+{==+==}
+
+== 跟踪引用和垃圾收集
+
+在前面的部分中，我们看到 `addr()` 返回的 Nim 中的指针类型为 `ptr T`，但我们看到  `new` 返回的是 `ref T` 。
+
+虽然 `ptr` 和 `ref`都是指向数据的指针，但两者之间有一个重要区别：
+
+{==+==}
+
+{==+==}
+- a `ptr T` is just a pointer -- a variable holding an address which points to
+  data living elsewhere. You as the programmer are responsible for making sure
+  this pointer is referencing to valid memory when you use it.
+
+- a `ref T` is a _traced reference_: this also is an address pointing to
+  something else, but Nim will keep track of data it points to for you, and
+  make sure this will be freed when it is no longer needed.
+
+{==+==}
+
+- `ptr T` 只是一个指针，一个保存着指向数据的地址变量。作为程序员，您有责任确保在使用该指针时该指针引用的是有效内存。
+
+-  `ref T` 是一个跟踪引用：这也是一个指向其他对象的地址，但 Nim 会为您跟踪它指向的数据，并确保在不需要时将其释放。
+
+{==+==}
+
+{==+==}
+
+The only way to acquire a `ref T` pointer is to allocate the memory using the
+`new()` proc. Nim will reserve the memory for you, and also will start keeping
+track of where in the code this data is referenced. When the Nim runtime sees
+that the data is no longer referred to, it knows it is safe to discard it and
+it will automatically free it for you. This is known as _garbage collection_,
+or _GC_ for short.
+
+{==+==}
+
+获取 `ref T` 指针的唯一方法是使用 `new()` 过程分配内存。Nim 将为您保留内存，并开始跟踪代码中引用数据的位置。当 Nim 运行时发现数据不再被引用时，知道丢弃它是安全的时，会自动释放它。这称为 _垃圾收集_ ，简称 _GC_ 。
+
+{==+==}
+
+{==+==}
+
+== How Nim stores data in memory
+
+This section will show some experiments where we investigate how Nim stores
+various data types in memory. 
+
+{==+==}
+
+== Nim 如何在内存中存储数据
+
+本节将进行一些实验，看看 Nim 如何在内存中存储各种数据类型。
+
+{==+==}
+
+{==+==}
+=== Primitive types
+
+A _primitive_ or _scalar_ type is a "single" value like an `int`, a `bool` or a
+`float`.  Scalars are usually kept on the stack, unless they are part of a
+container type like an object.
+
+Let's see how Nim manages memory for primitive types for us. The snippet below
+first creates a variable `a` of type `int` and prints this variable and its
+size.  Then it will create a second variable `b` of type `ptr int` which is
+called a _pointer_, and now holds the _address_ of variable `a`.
+
+{==+==}
+
+== 基本类型
+
+_基本_ 的 _标量_ 类型是 "单个" 值，如 `int`、`bool` 或 `float` 。标量通常保存在栈中，除非它们是容器类型（如对象）的一部分。
+
+看看 Nim 是如何为基本类型管理内存的。下面的代码片段首先创建了一个类型为int 的变量 `a` ，并打印该变量及其大小。然后，它将创建类型为 `ptr int` 的第二个变量 `b`，称为 _指针_，保存变量 `a` 的 _地址_ 。
+
+{==+==}
+
+{==+==}
+----
+var a = 9
+echo a.repr
+echo sizeof(a)
+
+var b = a.addr
+echo b.repr
+echo sizeof(b)
+----
+
+{==+==}
+
+----
+var a = 9
+echo a.repr
+echo sizeof(a)
+
+var b = a.addr
+echo b.repr
+echo sizeof(b)
+----
+
+{==+==}
+
+{==+==}
+On my machine I might get the following output:
+
+  9  <1>
+  8  <2>
+  ptr 0x300000 --> 9 <3>
+  8  <4>
+
+<1> No surprise here: this is the value of variable `a`
+
+<2> This is the size of the variable, in bytes. 8 bytes makes 64 bits, which
+    happens to be the default size for `int` types in Nim on my machine. So far
+    so good.
+{==+==}
+
+在我的计算机上回得到下面的输出
+
+  9  <1>
+  8  <2>
+  ptr 0x300000 --> 9 <3>
+  8  <4>
+
+<1> 这里并不奇怪：这是变量 `a` 的值
+
+<2> 这是变量的大小，以字节为单位。8 字节等于 64 位，这恰好是我机器上 Nim 中 `int` 类型的默认大小。到现在为止，一直都还不错。
+
+{==+==}
+
+{==+==}
+<3> This line shows a representation of variable `b`. `b` holds the address
+    of variable `a`, which happens to live at address `0x300000`. In Nim an
+    address is known as a _ref_ or a _pointer_.
+
+<4> `b` itself is also a variable, which is not of the type `ptr int`. On
+    my machine memory addresses also have a size of 64 bit, which equals 8
+    bytes.
+
+{==+==}
+
+<3> 此行显示变量 `b` , 表示 `b` 保存变量 `a` 的地址，该变量恰好位于地址 `0x300000` 。在 Nim 中，地址称为参考 _ref_ 或指针 _pointer_ 。
+
+<4> `b` 本身也是一个变量，它不是 `ptr int` 类型。在我的机器上，内存地址的大小也为64位，相当于8字节。
+
+{==+==}
+
+{==+==}
+
+The above can be represented by the following diagram:
+
+            +---------------------------------------+
+ 0x??????:  | 00 | 00 | 00 | 00 | 30 | 00 | 00 | 00 | b: ptr int =
+            +---------------------------------------+    0x300000
+                                |
+                                |
+                                v
+            +---------------------------------------+
+ 0x300000:  | 00 | 00 | 00 | 00 | 00 | 00 | 00 | 09 | a: int = 9
+            +---------------------------------------+
+
+
+
+{==+==}
+
+以上内容可由下图表示：
+
+
+            +---------------------------------------+
+ 0x??????:  | 00 | 00 | 00 | 00 | 30 | 00 | 00 | 00 | b: ptr int =
+            +---------------------------------------+    0x300000
+                                |
+                                |
+                                v
+            +---------------------------------------+
+ 0x300000:  | 00 | 00 | 00 | 00 | 00 | 00 | 00 | 09 | a: int = 9
+            +---------------------------------------+
+
+
+{==+==}
+
+{==+==}
+=== Compound types: objects
+
+Let's put a more complicated object on the stack and see what happens:
+
+----
+type Thing = object <1>
+  a: uint32
+  b: uint8
+  c: uint16
+
+var t: Thing <2>
+
+echo "size t.a ", t.a.sizeof
+echo "size t.b ", t.b.sizeof
+echo "size t.c ", t.c.sizeof
+echo "size t   ", t.sizeof  <3>
+
+echo "addr t.a ", t.a.addr.repr
+echo "addr t.b ", t.b.addr.repr
+echo "addr t.c ", t.c.addr.repr
+echo "addr t   ", t.addr.repr  <4>
+----
+
+{==+==}
+== 复合类型：对象 `object`
+
+让我们在堆栈上放置一个更复杂的对象，看看会发生什么：
+
+
+```nim
+type Thing = object # <1>
+  a: uint32
+  b: uint8
+  c: uint16
+
+var t: Thing  #<2>
+
+echo "size t.a ", t.a.sizeof
+echo "size t.b ", t.b.sizeof
+echo "size t.c ", t.c.sizeof
+echo "size t   ", t.sizeof  #<3>
+
+echo "addr t.a ", t.a.addr.repr
+echo "addr t.b ", t.b.addr.repr
+echo "addr t.c ", t.c.addr.repr
+echo "addr t   ", t.addr.repr  #<4>
+```
+
+
+{==+==}
+
+{==+==}
+<1> The definition of our object type `Thing`, which holds integers of various
+    sizes
+
+<2> Create a variable `t` of type `Thing`
+
+<3> Print the size of `t` and all its fields
+
+<4> Print the address of `t` and all its fields
+
+In Nim, an object is just a way of grouping variables into a handy container,
+making sure they are placed next to each other in memory the same way as C
+would do.
+
+{==+==}
+
+<1> 对象类型 `Thing` 的定义，它包含几种大小的整数
+<2> 创建 `Thing` 类型的变量 `t`
+<3> 打印  `t` 及其所有字段的大小，
+<4> 打印  `t` 及其所有字段的地址。
+
+在 Nim 中，对象是将变量分组到一个容器中的一种方式，确保它们在内存中以与 C 相同的方式相邻放置。
+
+{==+==}
+
+{==+==}
+Here is the output on my machine:
+
+----
+size t.a 4  <1>
+size t.b 1
+size t.c 2
+size t   8  <2>
+addr t   ptr 0x300000 --> [a = 0, b = 0, c = 0]  <3>
+addr t.a ptr 0x300000 --> 0  <4>
+addr t.b ptr 0x300004 --> 0
+addr t.c ptr 0x300006 --> 0  <5>
+----
+
+{==+==}
+
+在我机器上的输出：
+
+```bash
+size t.a 4  <1>
+size t.b 1
+size t.c 2
+size t   8  <2>
+addr t   ptr 0x300000 --> [a = 0, b = 0, c = 0]  <3>
+addr t.a ptr 0x300000 --> 0  <4>
+addr t.b ptr 0x300004 --> 0
+addr t.c ptr 0x300006 --> 0  <5>
+```
+
+
+{==+==}
+
+{==+==}
+Lets go through the output:
+
+<1> First get the size of fields of the object. `a` was declared as an `uint32`, which
+    is 4 bytes big, `b` is an `uint8` which is 1 byte, and `c` is an `uint16` which is 2 bytes
+    big. check!
+
+<2> Here is a bit of a surprise: print the size of the container object `t`, which seems
+    to be 8 bytes big. But that does not add up, as the contents of the object is
+    only 4+1+2 = 7 bytes! More on this below.
+
+{==+==}
+
+来看看输出：
+
+<1> 首先是对象字段的大小 `a` 被声明为 4 字节大的 `uint32`，`b`是 1字节的 `uint8 `，`c` 是 2 字节大的 `uint16` 。检查一下。
+
+<2> 这里有一点令人惊讶：打印对象 `t` 的大小，它有8个字节大。但这并不能简单相加，因为对象的内容只有 4+1+2=7 字节！下面将详细介绍。
+
+{==+==}
+
+{==+==}
+<3> Let's get the address of the object `t`: on my machine it was placed on
+    address `0x300000` on the stack.
+
+<4> Here we can see that the field `t.a` lies at exactly the same place in memory as the object
+    itself: `0x300000`. The address of `t.b` is `0x300004`, which is 4
+    bytes after `t.a`. That makes sense, since `t.a` is four bytes big.
+
+<5> The address of `t.c` is `0x300006`, which is 2 (!) bytes after `t.b`, but `t.b` is only
+    one byte big?
+
+{==+==}
+
+<3> 让我们获取对象 `t` 的地址：在我的机器上，它被放置在堆栈的地址 `0x300000` 上。
+
+<4> 这里我们可以看到字段 `t.a` 与对象本身在内存中的位置完全相同： `0x300000` 。 `t.b` 的地址是 `0x300004` ，它在 `t.a` 之后4个字节。这是有意义的，因为 `t.a` 有4个字节大。
+
+<5> `t.c` 的地址是 `0x300006` ，它是 `t.b` 之后的 2(!) 字节，但 `t.b` 只有一个字节大啊？
+
+{==+==}
+
+{==+==}
+So, let's draw a little picture of what we have learned from the above:
+
+----
+              00   01   02   03   04   05   06   07
+            +-------------------+----+----+---------+
+ 0x300000:  | a                 | b  | ?? | c       |
+            +-------------------+----+----+---------+
+            ^                   ^         ^ 
+            |                   |         |
+         address of           addr       addr
+         t and t.a           of t.b     of t.c
+----
+
+{==+==}
+
+因此，让我们来描绘一下我们从上面学到的东西：
+
+----
+              00   01   02   03   04   05   06   07
+            +-------------------+----+----+---------+
+ 0x300000:  | a                 | b  | ?? | c       |
+            +-------------------+----+----+---------+
+            ^                   ^         ^ 
+            |                   |         |
+         t 和 t.a 地址          t.b addr  t.c addr
+
+----
+
+{==+==}
+
+{==+==}
+So this is what our `Thing` object looks like in memory.  So what is up with
+the hole marked `??` at offset 5, and why is the total size not 7 but 8 bytes?
+
+This is caused by something the compiler does which is called _alignment_, to make it easier for the CPU to access the data in memory. By making sure objects are nicely aligned in memory at a multiple of their size (or a multiple of the architecture's word size), the CPU can access the memory more efficiently. This usually results in faster code, at the price of wasting some memory.
+
+{==+==}
+
+这就是我们的 `Thing` 对象在内存中的样子。那么标记为 `??` 的洞是怎么回事，为什么总大小不是7而是8字节？
+
+这是由编译器做 _对齐_ 的事情引起的，它使CPU更容易访问内存中的数据。通过确保对象在内存中以其大小的倍数（或体系结构单个字大小的倍数，单个字即8,16，32,64bit）对齐，CPU可以更有效地访问内存。这通常会导致更快的代码，代价是浪费一些内存。
+
+{==+==}
+
+{==+==}
+(You can hint the Nim compiler not to do alignment but to place the fields of an object back-to-back in memory using the `{.packed.}` pragma -- refer to the link:https://nim-lang.github.io/Nim/manual.html#[Nim language manual] for details)
+
+
+{==+==}
+
+（您可以指示 Nim 编译器不要进行对齐，而是使用 `{.packed.}` 编译指示将对象的字段紧挨着放在内存中，可参阅链接：https://nim-lang.github.io/Nim/manual.html#[尼姆语言手册]中详细信息）
+
+{==+==}
+
+{==+==}
+
+=== Strings and seqs
+
+The above sections described how Nim manages relativily simple static objects
+in memory. This section will go into the implementation of more complex and
+dynamic data types which are part of the Nim language: strings and seqs.
+
+
+{==+==}
+
+== 字符串 `string` 和序列 `seq`
+
+以上章节描述了 Nim 如何管理内存中相对简单的静态对象。本节将讨论作为 Nim 语言实现的更复杂部分，动态数据类型：`string` 和 `seq` 。
+
+{==+==}
+
+{==+==}
+In Nim, the `string` and `seq` data types are closely related. These are
+basically a long row of objects of the same type (chars for a strings, any
+other type for seqs). What is different for these types is that they can
+dynamically grow or shrink in memory.
+
+{==+==}
+
+在 Nim 中， `string` 和 `seq` 数据类型密切相关。这些基本上都是一组相同类型的对象（字符串为字符，seq为任何其他类型）。这些类型的不同之处在于它们可以在内存中动态增长或收缩。
+
+{==+==}
+
+{==+==}
+==== Let's talk about seqs
+
+Lets create a `seq` and do some experiments with it:
+
+----
+var a = @[ 30, 40, 50 ]
+----
+
+Let's ask Nim what the type of variable `a` is:
+
+----
+var a = @[ 30, 40, 50 ]
+echo typeof(a)   # -> seq[int]
+----
+
+{==+==}
+
+==== 先讲讲 seqs
+
+创建一个 `seq` 包含一些对象试验一下：:
+
+----
+var a = @[ 30, 40, 50 ]
+----
+
+再打印出 `a` 的对象类型:
+
+----
+var a = @[ 30, 40, 50 ]
+echo typeof(a)   # -> seq[int]
+----
+
+
+{==+==}
+
+{==+==}
+We see the type is `seq[int]`, which is what was expected.
+
+Now, lets add some code to see how Nim stores the data:
+
+----
+var a = @[ 0x30, 0x40, 0x50 ]
+echo a.repr
+echo a.len
+echo a[0].addr.repr
+echo a[1].addr.repr
+----
+
+{==+==}
+
+我们看到打印出了 `seq[int]`, 正是我们期望的。
+
+现在，我们看看在 Nim 中，`seq` 是如何存储数据的：
+
+----
+var a = @[ 0x30, 0x40, 0x50 ]
+echo a.repr
+echo a.len
+echo a[0].addr.repr
+echo a[1].addr.repr
+----
+
+{==+==}
+
+{==+==}
+And here is the output on my machine:
+
+----
+ptr 0x300000 --> 0x900000@[0x30, 0x40, 0x50]  <1>
+3 <2>
+ptr 0x900010 --> 0x30  <3>
+ptr 0x900018 --> 0x40  <4>
+----
+
+What can be deduced from this?
+
+{==+==}
+
+我的机器输出为：
+
+----
+ptr 0x300000 --> 0x900000@[0x30, 0x40, 0x50]  <1>
+3 <2>
+ptr 0x900010 --> 0x30  <3>
+ptr 0x900018 --> 0x40  <4>
+----
+
+这能推断出什么？
+
+{==+==}
+
+{==+==}
+<1> The variable `a` itself is placed on the stack, which happens to be at
+    address `0x300000` on my machine. A is some kind of pointer that points to
+    address `0x900000` which is on the heap! And this is where the actual seq
+    lives.
+
+<2> This seq contains 3 elements, just as it should be.
+
+<3> `a[0]` is the first element of the seq. Its value is `0x30`, and i is stored
+    at address `0x900010`, which is right after the seq itself
+
+<4> The second item in the seq is `a[1]`, which is placed at address `0x900018`.
+    This makes perfect sense, as the size of an `int` is 8 bytes, and all
+    ints in the seq are placed back-to-back in memory.
+
+{==+==}
+
+<1> 变量 `a` 本身被放置在栈上，恰好位于我的计算机上的地址 `0x300000` 。 A是指向堆上地址 `0x900000` 的某种指针！这就是真正的seq 存的地方。
+<2> 这个 seq 包含 3 个元素，正如它应该包含的那样。
+
+<3> `a[0]` 是 seq 的第一个元素。其值为 `0x30` ，i 存储在地址`0x900010`，该地址正好在 seq 本身之后。
+
+<4> seq 中的第二项是 `a[1]` ，位于地址 `0x900018`。这是非常合理的，因为 `int` 的大小是 8 字节，seq 中的所有 int 都紧挨着放在内存中。
+
+{==+==}
+
+{==+==}
+Let's make a little drawing again. We know `a` is a pointer living on the
+stack, which refers to something on the heap with a size of 16 bytes, followed
+by the elements of our seq:
+
+              stack 
+            +---------------------------------------+
+ 0x300000   | 00 | 00 | 00 | 00 | 90 | 00 | 00 | 00 | a: seq[int]
+            +---------------------------------------+
+                                |
+              heap              v
+            +---------------------------------------+
+ 0x900000   | ?? | ?? | ?? | ?? | ?? | ?? | ?? | ?? |
+            +---------------------------------------+
+ 0x900008   | ?? | ?? | ?? | ?? | ?? | ?? | ?? | ?? |
+            +---------------------------------------+
+ 0x900010   | 00 | 00 | 00 | 00 | 00 | 00 | 00 | 30 | a[0] = 0x30
+            +---------------------------------------+
+ 0x900018   | 00 | 00 | 00 | 00 | 00 | 00 | 00 | 40 | a[1] = 0x40
+            +---------------------------------------+
+ 0x900020   | 00 | 00 | 00 | 00 | 00 | 00 | 00 | 50 | a[2] = 0x50
+            +---------------------------------------+
+
+{==+==}
+
+
+让我们再画个图。我们知道 `a` 是栈上的一个指针，它指的是堆上大小为 16 字节的东西，后跟 seq 的元素：
+
+              栈 
+            +---------------------------------------+
+ 0x300000   | 00 | 00 | 00 | 00 | 90 | 00 | 00 | 00 | a: seq[int]
+            +---------------------------------------+
+                                |
+              堆              v
+            +---------------------------------------+
+ 0x900000   | ?? | ?? | ?? | ?? | ?? | ?? | ?? | ?? |
+            +---------------------------------------+
+ 0x900008   | ?? | ?? | ?? | ?? | ?? | ?? | ?? | ?? |
+            +---------------------------------------+
+ 0x900010   | 00 | 00 | 00 | 00 | 00 | 00 | 00 | 30 | a[0] = 0x30
+            +---------------------------------------+
+ 0x900018   | 00 | 00 | 00 | 00 | 00 | 00 | 00 | 40 | a[1] = 0x40
+            +---------------------------------------+
+ 0x900020   | 00 | 00 | 00 | 00 | 00 | 00 | 00 | 50 | a[2] = 0x50
+            +---------------------------------------+
+
+
+{==+==}
+
+{==+==}
+This almost explains all of the seq, except for the 16 unknown bytes at the
+start of the block: this area is where Nim stores its internal information
+about the seq.
+
+{==+==}
+
+这几乎解释了 seq 所有部分，除了块开头的 16 个未知字节之外：这个区域是 Nim 存储 seq 内部信息的地方。
+
+{==+==}
+
+{==+==}
+This data is normally hidden from the user, but you can simply find the
+implementation of this header in the Nim system library, and it looks like
+this:
+
+----
+type TGenericSeq = object
+  len: int  <1>
+  reserved: int <2>
+----
+
+{==+==}
+
+此数据通常对用户隐藏，但您可以在 Nim 系统库中找到 seq 标头 的实现，如下所示：
+
+----
+type TGenericSeq = object
+  len: int  <1>
+  reserved: int <2>
+----
+
+
+{==+==}
+
+{==+==}
+<1> The `len` field is used by Nim to store the current length of the seq -
+    that is how many elements are in it.
+
+<2> The `reserved` field is used to keep track of the actual size of the storage
+    inside the seq -- for performance reasons Nim might reserve a larger space
+    ahead of time to avoid resizing the seq when new items need to be added.
+
+{==+==}
+
+<1> Nim 使用 `len` 字段来保存 seq 的当前长度，即 seq 中的元素数。
+<2>  `reserved` 字段用于跟踪 seq 中存储的实际大小，出于性能原因，Nim 可能会提前预留更大的空间，以避免在需要添加新项目时调整 seq 的大小。
+
+{==+==}
+
+{==+==}
+Let's do a little experiment to inspect what is in the our seq header (unsafe
+code ahead!):
+
+----
+type TGenericSeq = object <1>
+  len, reserved: int
+
+var a = @[10, 20, 30]
+var b = cast[ptr TGenericSeq](a) <2>
+echo b.repr
+----
+
+{==+==}
+
+让我们做一个小实验来检查 seq 标头中的内容（有不安全的代码！）：
+
+
+----
+type TGenericSeq = object <1>
+  len, reserved: int
+
+var a = @[10, 20, 30]
+var b = cast[ptr TGenericSeq](a) <2>
+echo b.repr
+----
+
+
+{==+==}
+
+{==+==}
+<1> The original `TGenericSeq` object is not exported from the system lib, so
+    here the same object is defined
+
+<2> Here the variable `a` is casted to the `TGenericSeq` type. 
+
+When we print the result with `echo b.repr`, the output looks like this:
+
+{==+==}
+
+<1> 原始的 `TGenericSeq` 对象未从系统库导出，因此此处定义了相同的对象
+
+<2> 这里，变量 `a` 被强制转换为 `TGenericSeq` 类型。
+
+当我们使用  `echo b.repr` 打印结果时，输出如下所示：
+
+{==+==}
+
+
+
+{==+==}
+----
+ptr 0x900000 --> [len = 3, reserved = 3]
+----
+
+There we have it: Our seq has a size of 3, and has reserved space for 3
+elements in total. The next section will explain what happens when more fields
+are added to a seq.
+
+{==+==}
+
+----
+ptr 0x900000 --> [len = 3, reserved = 3]
+----
+
+我们的 seq 大小为 3，总共为 3 个元素预留了空间。下一节将解释在 seq 中添加更多字段时会发生什么。
+
+{==+==}
+
+
+
+
+{==+==}
+
+==== Growing a seq
+
+The snippet below starts with the same seq, and then adds new elements. Each
+iteration it will print the seq header:
+
+----
+type TGenericSeq = object
+  len, reserved: int
+
+var a = @[10, 20, 30]
+
+for i in 0..4:
+  echo cast[ptr TGenericSeq](a).repr
+  a.add i
+
+----
+
+{==+==}
+
+==== 增长序列 seq
+
+下面的代码段以相同的 seq 开头，然后添加新元素。每次迭代都将打印 seq 标头：
+
+----
+type TGenericSeq = object
+  len, reserved: int
+
+var a = @[10, 20, 30]
+
+for i in 0..4:
+  echo cast[ptr TGenericSeq](a).repr
+  a.add i
+
+----
+
+
+{==+==}
+
+{==+==}
+Here is the output, see if you can spot the interesting bits:
+
+----
+ptr 0x900000 --> [len = 3, reserved = 3] <1>
+ptr 0x900070 --> [len = 4, reserved = 6] <2>
+ptr 0x900070 --> [len = 5, reserved = 6] <3>
+ptr 0x900070 --> [len = 6, reserved = 6] 
+ptr 0x9000d0 --> [len = 7, reserved = 12] <4>
+----
+
+{==+==}
+
+这是输出，你是否能发现有趣的位：
+
+----
+ptr 0x900000 --> [len = 3, reserved = 3] <1>
+ptr 0x900070 --> [len = 4, reserved = 6] <2>
+ptr 0x900070 --> [len = 5, reserved = 6] <3>
+ptr 0x900070 --> [len = 6, reserved = 6] 
+ptr 0x9000d0 --> [len = 7, reserved = 12] <4>
+----
+
+{==+==}
+
+
+
+
+{==+==}
+<1> This is the original 3 element seq: it is stored on the heap at 
+    address `0x900000`, has a length of 3 elements, and reserved storage for
+    3 elements as well
+
+<2> One element was added, and a few notable things have happened: 
+
+    - the `len` field is increased to 4, which makes perfect sense because the
+      seq now holds 4 elements
+
+    - the `reserved` field increased from 3 to 6. This is because Nim
+      doubles the storage size when doing a new allocation - this is more
+      efficient when repeatedly adding data without having to resize the
+      allocation for every `add()`
+
+{==+==}
+
+<1> 这是原始的 3 元素 seq ：它存储在堆中的地址 `0x900000`，长度为 3 个元素，并且还保留了 3 个元素的存储空间
+
+<2> 添加了一个元素，发生了一些值得注意的事情：
+
+- `len` 字段增加到 4 ，这非常合理，因为 seq 现在包含 4 个元素
+-  `reserved` 字段从 3 增加到 6 。这是因为 Nim 在进行新的分配时将存储大小增加了一倍，当重复添加数据而不必为每个 `add()` 调整分配大小时，这会更有效
+
+{==+==}
+
+{==+==}
+    - note that the address of the seq itself also changed!  The reason for
+      this is that the inital memory allocation for the seq data on the heap
+      was not large enough to fit the new element, so Nim had to find a larger
+      chunk of memory to hold the data. It is likely that the allocator already
+      reserved the area directly behind the seq to something else, so it was
+      not possible to grow this area. Instead, a new allocation somewhere else
+      on the heap was made, the old data of the seq was copied from the old
+      location to the new location, and the new element was added.
+
+<3> When adding the 4th element above, Nim resized the seq storage to hold 6
+    elements -- this allows adding two more elements without having to make
+    a larger allocation. There are now 6 elements placed in the seq, with a total
+    reserved size for 6 elements.
+
+<4> And here the same happens once more: The block is not large enough to fit
+    the 7th item, so the whole seq is moved to another place, and the allocation is
+    scaled up to hold 12 elements.
+
+
+{==+==}
+
+- 注意 seq 本身的地址也发生了变化！原因是堆上 seq 数据的初始内存分配不够大，无法容纳新元素，因此 Nim 必须找到更大的内存块来保存数据。很可能分配器已经将 seq 后面的区域直接保留给其他对象，因此不可能增加该区域。相反，在堆的其他位置进行了新的分配，seq 的旧数据从旧位置复制到新位置，并添加了新元素。
+
+<3> 当添加上面的第 4 个元素时， Nim 调整了 seq 存储的大小，以容纳 6 个元素——这允许再添加两个元素，而不必进行更大的分配。现在 seq 中有 6 个元素，总共保留了 6 个元素的大小。
+
+<4> 在这里，同样的情况再次发生：区块不够大，无法容纳第 7 项，因此整个 seq 被移动到另一个地方，分配被放大以容纳 12 个元素。
+
+{==+==}
+
+{==+==}
+== Conclusion
+
+This document only scratched the surface of how Nim's handles memory, there is
+a lot more to tell. Here are some subjects I think also deserve a chapter one
+day, but which I didn't come to write yet:
+
+- A more elaborate discussion on garbage collection, and the available GC
+  flavours in Nim.
+
+- Using Nim without a garbage collector / embedded systems with tight memory.
+
+{==+==}
+
+== 结论
+
+这篇文章只简单的介绍 Nim 如何处理内存，还有很多事情要讲。以下是一些我认为也值得的主题，但我还没来写：
+
+- 更详细地讨论了垃圾收集，以及 Nim 可用的 GC 策略。
+
+- 在没有垃圾收集器/内存不足的嵌入式系统的情况下使用 Nim。
+
+{==+==}
+
+{==+==}
+- The new Nim runtime!
+
+- Memory usage in closures/iterators/async -- locals do not always go on the stack.
+
+- FFI: Discussion and examples of passing data between C and Nim.
+
+This is a document in progress, any comments are much appreciated. The source
+can be found on github at https://github.com/zevv/nim-memory
+
+
+{==+==}
+
+- 新的尼姆运行时！
+
+- 闭包、迭代器、异步(closures/iterator/async)中的内存使用情况：局部变量不在堆栈中的情况。
+
+- FFI：C 和 Nim 之间传递数据的讨论和示例。
+
+这是一份还在修改的文件，非常感谢您的任何意见。来源在github上找到https://github.com/zevv/nim-memory
+
+{==+==}

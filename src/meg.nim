@@ -66,7 +66,8 @@ when isMainModule:
   var files:seq[string]
   # files = @["SUMMARY_cn.md","index_cn.md","faq_cn.md"]
   # files = @["2020-12-08-introducing-orc_cn","2020-10-15-introduction-to-arc-orc-in-nim_cn"]
-  files = @["09a_cn.adoc","2022-11-11-a-cost-model-for-nim_cn.md"]
+  # files = @["09a_cn.adoc","2022-11-11-a-cost-model-for-nim_cn.md"]
+  files = @["nim-memory_cn.md"]
   for fileName in files:
     # let localfile = "../cnbook/" & fileName & ".md"
     # let mmd = "../merge/" & fileName[0..^4] & ".md"
@@ -83,4 +84,4 @@ when isMainModule:
     # let cmd = "pandoc -f markdown -t asciidoc -o m" & fileName[0..1] & ".adoc m" & fileName
     # echo cmd
 
-#  nim c --gc:arc meg.nim
+#  nim c --mm:arc meg.nim
