@@ -57,7 +57,7 @@
     <link rel="shortcut icon" href="gitbook/images/favicon.ico" type="image/x-icon">
 
     
-    <link rel="next" href="nimspecial.html" />
+    <link rel="next" href="2021-11-15-zen-of-nim_cn.html" />
     
     
     <link rel="prev" href="2022-11-11-a-cost-model-for-nim_cn.html" />
@@ -167,7 +167,20 @@
             
         </li>
     
-        <li class="chapter " data-level="1.7" data-path="nimspecial.html">
+        <li class="chapter " data-level="1.7" data-path="2021-11-15-zen-of-nim_cn.html">
+            
+                <a href="2021-11-15-zen-of-nim_cn.html">
+            
+                    
+                     Nim之禅 
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.8" data-path="nimspecial.html">
             
                 <a href="nimspecial.html">
             
@@ -593,7 +606,7 @@
 <p>&#x4E0A;&#x8FF0;&#x4E24;&#x79CD;&#x673A;&#x5236;&#x7684;&#x6570;&#x636E;&#x7EC4;&#x5408;&#x6784;&#x6210;&#x4E86;&#x4E00;&#x4E2A;&#x6808;&#x5E27; <em>stack frame</em> &#xFF1A;&#x8FD9;&#x662F;&#x6808;&#x7684;&#x4E00;&#x90E8;&#x5206;&#xFF0C;&#x5176;&#x4E2D;&#x5305;&#x542B;&#x5F53;&#x524D;&#x6D3B;&#x52A8;&#x51FD;&#x6570;&#x7684;&#x8FD4;&#x56DE;&#x5730;&#x5740;&#x53CA;&#x5176;&#x6240;&#x6709;&#x672C;&#x5730;&#x53D8;&#x91CF;&#x3002;</p>
 </div>
 <div class="paragraph">
-<p>&#x5728;&#x7A0B;&#x5E8F;&#x6267;&#x884C;&#x671F;&#x95F4;&#xFF0C;&#x5982;&#x679C;&#x60A8;&#x7684;&#x7A0B;&#x5E8F;&#x5D4C;&#x5957;&#x4E86;&#x4E24;&#x4E2A;&#x51FD;&#x6570;&#xFF0C;&#x5806;&#x6808;&#x5C06;&#x662F;&#x8FD9;&#x6837;&#x7684;&#xFF1A;</p>
+<p>&#x5728;&#x7A0B;&#x5E8F;&#x6267;&#x884C;&#x671F;&#x95F4;&#xFF0C;&#x5982;&#x679C;&#x60A8;&#x7684;&#x7A0B;&#x5E8F;&#x5D4C;&#x5957;&#x4E86;&#x4E24;&#x4E2A;&#x51FD;&#x6570;&#xFF0C;&#x6808;&#x5C06;&#x662F;&#x8FD9;&#x6837;&#x7684;&#xFF1A;</p>
 </div>
 <div class="literalblock">
 <div class="content">
@@ -615,7 +628,7 @@
 <p>&#x5C06;&#x6808;&#x7528;&#x4E8E;&#x6570;&#x636E;&#x548C;&#x8FD4;&#x56DE;&#x5730;&#x5740;&#x662F;&#x4E00;&#x4E2A;&#x975E;&#x5E38;&#x5DE7;&#x5999;&#x7684;&#x6280;&#x5DE7;&#xFF0C;&#x5E76;&#x4E14;&#x7ED9;&#x7A0B;&#x5E8F;&#x5E26;&#x6765;&#x4E86;&#x4E2A;&#x597D;&#x529F;&#x80FD;&#xFF1A;&#x53EF;&#x4EE5;&#x7ED9;&#x6570;&#x636E;&#x63D0;&#x4F9B;&#x81EA;&#x52A8;&#x7684;&#x5185;&#x5B58;&#x5206;&#x914D;&#x548C;&#x6E05;&#x7406;&#x3002;</p>
 </div>
 <div class="paragraph">
-<p>&#x6808;&#x4E5F;&#x53EF;&#x4EE5;&#x5F88;&#x597D;&#x5730;&#x4E0E;&#x7EBF;&#x7A0B;&#x4E00;&#x8D77;&#x5DE5;&#x4F5C;&#xFF1A;&#x6BCF;&#x4E2A;&#x7EBF;&#x7A0B;&#x90FD;&#x6709;&#x81EA;&#x5DF1;&#x7684;&#x6808;&#xFF0C;&#x5B58;&#x50A8;&#x81EA;&#x5DF1;&#x7684;&#x5C40;&#x90E8;&#x53D8;&#x91CF;&#x5E76;&#x4FDD;&#x5B58;&#x81EA;&#x5DF1;&#x7684;&#x5806;&#x6808;&#x5E27;&#x3002;</p>
+<p>&#x6808;&#x4E5F;&#x53EF;&#x4EE5;&#x5F88;&#x597D;&#x5730;&#x4E0E;&#x7EBF;&#x7A0B;&#x4E00;&#x8D77;&#x5DE5;&#x4F5C;&#xFF1A;&#x6BCF;&#x4E2A;&#x7EBF;&#x7A0B;&#x90FD;&#x6709;&#x81EA;&#x5DF1;&#x7684;&#x6808;&#xFF0C;&#x5B58;&#x50A8;&#x81EA;&#x5DF1;&#x7684;&#x5C40;&#x90E8;&#x53D8;&#x91CF;&#x5E76;&#x4FDD;&#x5B58;&#x81EA;&#x5DF1;&#x7684;&#x6808;&#x5E27;&#x3002;</p>
 </div>
 <div class="paragraph">
 <p>&#x73B0;&#x5728;&#xFF0C;&#x60A8;&#x77E5;&#x9053; Nim &#x5728;&#x9047;&#x5230;&#x8FD0;&#x884C;&#x65F6;&#x9519;&#x8BEF;&#x6216;&#x5F02;&#x5E38;&#x65F6;&#xFF0C;&#x751F;&#x6210; <em>stacktrace</em> &#x7684;&#x6808;&#x8DDF;&#x8E2A;&#xFF0C;&#x4ECE;&#x4F55;&#x5904;&#x83B7;&#x53D6;&#x4FE1;&#x606F;&#xFF1A;&#x5B83;&#x5C06;&#x627E;&#x5230;&#x6808;&#x4E0A;&#x6700;&#x5185;&#x90E8;&#x6D3B;&#x52A8;&#x51FD;&#x6570;&#x7684;&#x5730;&#x5740;&#xFF0C;&#x5E76;&#x6253;&#x5370;&#x5176;&#x540D;&#x79F0;&#x3002;&#x7136;&#x540E;&#xFF0C;&#x5B83;&#x5728;&#x6808;&#x4E0A;&#x8FDB;&#x4E00;&#x6B65;&#x67E5;&#x627E;&#x4E0B;&#x4E00;&#x7EA7;&#x6D3B;&#x52A8;&#x51FD;&#x6570;&#xFF0C;&#x4E00;&#x76F4;&#x627E;&#x5230;&#x9876;&#x90E8;&#x3002;</p>
@@ -953,7 +966,7 @@ ptr 0x300000 --&gt; 9 <b class="conum">(3)</b>
 <h2 id="__code_object_code">&#x590D;&#x5408;&#x7C7B;&#x578B;&#xFF1A;&#x5BF9;&#x8C61; <code>object</code></h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>&#x8BA9;&#x6211;&#x4EEC;&#x5728;&#x5806;&#x6808;&#x4E0A;&#x653E;&#x7F6E;&#x4E00;&#x4E2A;&#x66F4;&#x590D;&#x6742;&#x7684;&#x5BF9;&#x8C61;&#xFF0C;&#x770B;&#x770B;&#x4F1A;&#x53D1;&#x751F;&#x4EC0;&#x4E48;&#xFF1A;</p>
+<p>&#x8BA9;&#x6211;&#x4EEC;&#x5728;&#x6808;&#x4E0A;&#x653E;&#x7F6E;&#x4E00;&#x4E2A;&#x66F4;&#x590D;&#x6742;&#x7684;&#x5BF9;&#x8C61;&#xFF0C;&#x770B;&#x770B;&#x4F1A;&#x53D1;&#x751F;&#x4EC0;&#x4E48;&#xFF1A;</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -1021,7 +1034,7 @@ addr t.c ptr 0x300006 --&gt; 0  <b class="conum">(5)</b></pre>
 <p>&#x8FD9;&#x91CC;&#x6709;&#x4E00;&#x70B9;&#x4EE4;&#x4EBA;&#x60CA;&#x8BB6;&#xFF1A;&#x6253;&#x5370;&#x5BF9;&#x8C61; <code>t</code> &#x7684;&#x5927;&#x5C0F;&#xFF0C;&#x5B83;&#x6709;8&#x4E2A;&#x5B57;&#x8282;&#x5927;&#x3002;&#x4F46;&#x8FD9;&#x5E76;&#x4E0D;&#x80FD;&#x7B80;&#x5355;&#x76F8;&#x52A0;&#xFF0C;&#x56E0;&#x4E3A;&#x5BF9;&#x8C61;&#x7684;&#x5185;&#x5BB9;&#x53EA;&#x6709; 4+1+2=7 &#x5B57;&#x8282;&#xFF01;&#x4E0B;&#x9762;&#x5C06;&#x8BE6;&#x7EC6;&#x4ECB;&#x7ECD;&#x3002;</p>
 </li>
 <li>
-<p>&#x8BA9;&#x6211;&#x4EEC;&#x83B7;&#x53D6;&#x5BF9;&#x8C61; <code>t</code> &#x7684;&#x5730;&#x5740;&#xFF1A;&#x5728;&#x6211;&#x7684;&#x673A;&#x5668;&#x4E0A;&#xFF0C;&#x5B83;&#x88AB;&#x653E;&#x7F6E;&#x5728;&#x5806;&#x6808;&#x7684;&#x5730;&#x5740; <code>0x300000</code> &#x4E0A;&#x3002;</p>
+<p>&#x8BA9;&#x6211;&#x4EEC;&#x83B7;&#x53D6;&#x5BF9;&#x8C61; <code>t</code> &#x7684;&#x5730;&#x5740;&#xFF1A;&#x5728;&#x6211;&#x7684;&#x673A;&#x5668;&#x4E0A;&#xFF0C;&#x5B83;&#x88AB;&#x653E;&#x7F6E;&#x5728;&#x6808;&#x7684;&#x5730;&#x5740; <code>0x300000</code> &#x4E0A;&#x3002;</p>
 </li>
 <li>
 <p>&#x8FD9;&#x91CC;&#x6211;&#x4EEC;&#x53EF;&#x4EE5;&#x770B;&#x5230;&#x5B57;&#x6BB5; <code>t.a</code> &#x4E0E;&#x5BF9;&#x8C61;&#x672C;&#x8EAB;&#x5728;&#x5185;&#x5B58;&#x4E2D;&#x7684;&#x4F4D;&#x7F6E;&#x5B8C;&#x5168;&#x76F8;&#x540C;&#xFF1A; <code>0x300000</code> &#x3002; <code>t.b</code> &#x7684;&#x5730;&#x5740;&#x662F; <code>0x300004</code> &#xFF0C;&#x5B83;&#x5728; <code>t.a</code> &#x4E4B;&#x540E;4&#x4E2A;&#x5B57;&#x8282;&#x3002;&#x8FD9;&#x662F;&#x6709;&#x610F;&#x4E49;&#x7684;&#xFF0C;&#x56E0;&#x4E3A; <code>t.a</code> &#x6709;4&#x4E2A;&#x5B57;&#x8282;&#x5927;&#x3002;</p>
@@ -1277,7 +1290,7 @@ ptr 0x9000d0 --&gt; [len = 7, reserved = 12] <b class="conum">(4)</b></pre>
 <p>&#x65B0;&#x7684;&#x5C3C;&#x59C6;&#x8FD0;&#x884C;&#x65F6;&#xFF01;</p>
 </li>
 <li>
-<p>&#x95ED;&#x5305;&#x3001;&#x8FED;&#x4EE3;&#x5668;&#x3001;&#x5F02;&#x6B65;(closures/iterator/async)&#x4E2D;&#x7684;&#x5185;&#x5B58;&#x4F7F;&#x7528;&#x60C5;&#x51B5;&#xFF1A;&#x5C40;&#x90E8;&#x53D8;&#x91CF;&#x4E0D;&#x5728;&#x5806;&#x6808;&#x4E2D;&#x7684;&#x60C5;&#x51B5;&#x3002;</p>
+<p>&#x95ED;&#x5305;&#x3001;&#x8FED;&#x4EE3;&#x5668;&#x3001;&#x5F02;&#x6B65;(closures/iterator/async)&#x4E2D;&#x7684;&#x5185;&#x5B58;&#x4F7F;&#x7528;&#x60C5;&#x51B5;&#xFF1A;&#x5C40;&#x90E8;&#x53D8;&#x91CF;&#x4E0D;&#x5728;&#x6808;&#x4E2D;&#x7684;&#x60C5;&#x51B5;&#x3002;</p>
 </li>
 <li>
 <p>FFI&#xFF1A;C &#x548C; Nim &#x4E4B;&#x95F4;&#x4F20;&#x9012;&#x6570;&#x636E;&#x7684;&#x8BA8;&#x8BBA;&#x548C;&#x793A;&#x4F8B;&#x3002;</p>
@@ -1320,7 +1333,7 @@ ptr 0x9000d0 --&gt; [len = 7, reserved = 12] <b class="conum">(4)</b></pre>
                 </a>
                 
                 
-                <a href="nimspecial.html" class="navigation navigation-next " aria-label="Next page: Nim特色">
+                <a href="2021-11-15-zen-of-nim_cn.html" class="navigation navigation-next " aria-label="Next page:  Nim之禅 ">
                     <i class="fa fa-angle-right"></i>
                 </a>
                 
@@ -1331,7 +1344,7 @@ ptr 0x9000d0 --&gt; [len = 7, reserved = 12] <b class="conum">(4)</b></pre>
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":" Nim 内存模型 ","level":"1.6","depth":1,"next":{"title":"Nim特色","level":"1.7","depth":1,"path":"nimspecial.md","ref":"./nimspecial.md","articles":[]},"previous":{"title":" Nim2.0 的成本模型 ","level":"1.5","depth":1,"path":"2022-11-11-a-cost-model-for-nim_cn.md","ref":"./2022-11-11-a-cost-model-for-nim_cn.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":[],"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"nim-memory_cn.adoc","mtime":"2023-02-03T06:51:22.522Z","type":"asciidoc"},"gitbook":{"version":"3.2.3","time":"2023-02-03T06:52:04.993Z"},"basePath":".","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":" Nim 内存模型 ","level":"1.6","depth":1,"next":{"title":" Nim之禅 ","level":"1.7","depth":1,"path":"2021-11-15-zen-of-nim_cn.md","ref":"./2021-11-15-zen-of-nim_cn.md","articles":[]},"previous":{"title":" Nim2.0 的成本模型 ","level":"1.5","depth":1,"path":"2022-11-11-a-cost-model-for-nim_cn.md","ref":"./2022-11-11-a-cost-model-for-nim_cn.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":[],"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"nim-memory_cn.adoc","mtime":"2023-02-03T15:06:54.038Z","type":"asciidoc"},"gitbook":{"version":"3.2.3","time":"2023-02-03T15:09:02.261Z"},"basePath":".","book":{"language":""}});
         });
     </script>
 </div>

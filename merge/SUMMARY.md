@@ -9,6 +9,7 @@
 * [ Nim 程序的文档和调试](./09a_cn.adoc)
 * [ Nim2.0 的成本模型 ](./2022-11-11-a-cost-model-for-nim_cn.md)
 * [ Nim 内存模型 ](./nim-memory_cn.adoc)
+* [ Nim之禅 ](./2021-11-15-zen-of-nim_cn.md)
 * [Nim特色](./nimspecial.md)
 -----
 
