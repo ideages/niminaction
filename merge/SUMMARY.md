@@ -13,8 +13,7 @@
 -----
 
 * [ Nim之禅 ](./2021-11-15-zen-of-nim_cn.md)
-
-* [Nim特色](./nimspecial.md)
+* [ Nim特色 ](./nimspecial.md)
 -----
 
 * [简介](README.md)
