@@ -67,8 +67,8 @@ when isMainModule:
   # files = @["SUMMARY_cn.md","index_cn.md","faq_cn.md"]
   # files = @["2020-12-08-introducing-orc_cn","2020-10-15-introduction-to-arc-orc-in-nim_cn"]
   # files = @["09a_cn.adoc","2022-11-11-a-cost-model-for-nim_cn.md"]
-  # files = @["nim-memory_cn.adoc","2021-11-15-zen-of-nim_cn.md"]
-  files = @["nim_nogc_cn.md"]
+  files = @["nim-memory_cn.adoc","2021-11-15-zen-of-nim_cn.md"]
+  files.add("nim_nogc_cn.md")
   for fileName in files:
     # let localfile = "../cnbook/" & fileName & ".md"
     # let mmd = "../merge/" & fileName[0..^4] & ".md"

@@ -6,7 +6,7 @@ excerpt: "This blog post is the beginning of a cost model for the implementation
 
 
 
-## Nim 的成本模型
+# Nim 的成本模型
 
 > 设计一个完美无瑕，无可挑剔系统，是不可能的。
 >

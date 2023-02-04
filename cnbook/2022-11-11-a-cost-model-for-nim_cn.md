@@ -17,7 +17,7 @@ excerpt: "This blog post is the beginning of a cost model for the implementation
 {==+==}
 
 
-## A cost model for Nim
+# A cost model for Nim
 
 > It is impossible to design a system so perfect that no one needs to be
 > good.
@@ -25,7 +25,7 @@ excerpt: "This blog post is the beginning of a cost model for the implementation
 > --- T. S. Eliot
 {==+==}
 
-## Nim 的成本模型
+# Nim 的成本模型
 
 > 设计一个完美无瑕，无可挑剔系统，是不可能的。
 >
@@ -77,6 +77,7 @@ Nim's default allocator is completely lock-free. Fragmentation is low
 (average is 15%, and worst case is 25%) as it is based on the
 [TLSF](http://www.gii.upv.es/tlsf/) algorithm. The lock-free ideas have
 been taken from [mimalloc](https://github.com/microsoft/mimalloc).
+
 {==+==}
 
 在 Nim2 中，可以在线程之间有效地共享内存，而无需复制。分配和释放的复杂性为 O(1)，Nim 的默认分配器是完全无锁的。碎片化程度较低（平均值为15%，最坏情况为25%），因为它基于[TLSF](http://www.gii.upv.es/tlsf/)算法。无锁思想来自[mimalloc](https://github.com/microsoft/mimalloc).

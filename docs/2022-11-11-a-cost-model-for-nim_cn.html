@@ -187,20 +187,7 @@
             
         </li>
     
-        <li class="chapter " data-level="2.2" data-path="09a_cn.html">
-            
-                <a href="09a_cn.html">
-            
-                    
-                     Nim 程序的文档和调试
-            
-                </a>
-            
-
-            
-        </li>
-    
-        <li class="chapter " data-level="2.3" data-path="nimspecial.html">
+        <li class="chapter " data-level="2.2" data-path="nimspecial.html">
             
                 <a href="nimspecial.html">
             
@@ -338,7 +325,20 @@
             
         </li>
     
-        <li class="chapter " data-level="5.4" data-path="06.html">
+        <li class="chapter " data-level="5.4" data-path="09a_cn.html">
+            
+                <a href="09a_cn.html">
+            
+                    
+                    第五加章 文档和调试
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.5" data-path="06.html">
             
                 <a href="06.html">
             
@@ -351,7 +351,7 @@
             
         </li>
     
-        <li class="chapter " data-level="5.5" data-path="07.html">
+        <li class="chapter " data-level="5.6" data-path="07.html">
             
                 <a href="07.html">
             
@@ -442,7 +442,7 @@
     
                                 <section class="normal markdown-section">
                                 
-                                <h2 id="nim-&#x7684;&#x6210;&#x672C;&#x6A21;&#x578B;">Nim &#x7684;&#x6210;&#x672C;&#x6A21;&#x578B;</h2>
+                                <h1 id="nim-&#x7684;&#x6210;&#x672C;&#x6A21;&#x578B;">Nim &#x7684;&#x6210;&#x672C;&#x6A21;&#x578B;</h1>
 <blockquote>
 <p>&#x8BBE;&#x8BA1;&#x4E00;&#x4E2A;&#x5B8C;&#x7F8E;&#x65E0;&#x7455;&#xFF0C;&#x65E0;&#x53EF;&#x6311;&#x5254;&#x7CFB;&#x7EDF;&#xFF0C;&#x662F;&#x4E0D;&#x53EF;&#x80FD;&#x7684;&#x3002;</p>
 <p> --- T&#xB7;S&#xB7;&#x827E;&#x7565;&#x7279;&#xFF08;&#x82F1;&#x56FD;&#x8BD7;&#x4EBA;1888 - 1965&#xFF09;</p>
@@ -556,7 +556,7 @@
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":" Nim2.0 的成本模型 ","author":"Andreas Rumpf (Araq)","excerpt":"This blog post is the beginning of a cost model for the implementation that is available via `Nim devel` aka Nim version 2.","level":"1.5","depth":1,"next":{"title":" Nim 内存模型 ","level":"1.6","depth":1,"path":"nim-memory_cn.adoc","ref":"./nim-memory_cn.adoc","articles":[]},"previous":{"title":" ORC 卓越的 GC 算法","level":"1.4","depth":1,"path":"2020-12-08-introducing-orc.md","ref":"./2020-12-08-introducing-orc.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":[],"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"2022-11-11-a-cost-model-for-nim_cn.md","mtime":"2023-02-02T15:06:31.894Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2023-02-04T11:41:50.511Z"},"basePath":".","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":" Nim2.0 的成本模型 ","author":"Andreas Rumpf (Araq)","excerpt":"This blog post is the beginning of a cost model for the implementation that is available via `Nim devel` aka Nim version 2.","level":"1.5","depth":1,"next":{"title":" Nim 内存模型 ","level":"1.6","depth":1,"path":"nim-memory_cn.adoc","ref":"./nim-memory_cn.adoc","articles":[]},"previous":{"title":" ORC 卓越的 GC 算法","level":"1.4","depth":1,"path":"2020-12-08-introducing-orc.md","ref":"./2020-12-08-introducing-orc.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":[],"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"2022-11-11-a-cost-model-for-nim_cn.md","mtime":"2023-02-04T12:03:37.403Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2023-02-04T12:17:58.177Z"},"basePath":".","book":{"language":""}});
         });
     </script>
 </div>

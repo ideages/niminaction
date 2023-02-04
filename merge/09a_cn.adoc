@@ -658,8 +658,6 @@ image::./Images/ch05_lldb_adder_4.png[]
 
 不幸的是，这并没有告诉我们 `line` 变量的值。我们处于低级 C 的领域，因此 `line` 变量是指向  `NimStringDesc` 类型的指针。我们可以通过在变量名的开头添加星号来取消引用此指针： `print *line_106004` 。
 
-
-
 这样做将显示  `NimStringDesc` 类型中每个字段的值。不幸的是，在LLDB中，这没有显示 `data` 字段的值，因此我们必须显式访问它： `print (char*)line_106004-{gt}data` 。需要 `(char*)` 将 `data` 字段转换为 LLDB 可以显示的内容。图 <<figure_1_11,1.11>> 和 <<figure_1_12,1.12>> 分别显示了 GDB 和 LLDB 中的情况。
 
 
