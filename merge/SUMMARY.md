@@ -3,13 +3,17 @@
 -----
 
 
-* [Nim 2.0 的改进](./nim2.0.md)
-* [Nim 的 ARC/ORC 简介](./2020-10-15-introduction-to-arc-orc-in-nim.md)
+* [ Nim 2.0 的改进](./nim2.0.md)
+* [ 没有 GC 的 Nim ](./nim_nogc_cn.md)
+* [ Nim 的 ARC/ORC 简介](./2020-10-15-introduction-to-arc-orc-in-nim.md)
 * [ ORC 卓越的 GC 算法](./2020-12-08-introducing-orc.md)
-* [ Nim 程序的文档和调试](./09a_cn.adoc)
 * [ Nim2.0 的成本模型 ](./2022-11-11-a-cost-model-for-nim_cn.md)
 * [ Nim 内存模型 ](./nim-memory_cn.adoc)
+
+-----
+
 * [ Nim之禅 ](./2021-11-15-zen-of-nim_cn.md)
+* [ Nim 程序的文档和调试](./09a_cn.adoc)
 * [Nim特色](./nimspecial.md)
 -----
 
