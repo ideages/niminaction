@@ -5,6 +5,7 @@
 
 * [ Nim 2.0 的改进](./nim2.0.md)
 * [ 没有 GC 的 Nim ](./nim_nogc_cn.md)
+* [ Nim 析构和移动语义 ](./destructors_cn.md)
 * [ Nim 的 ARC/ORC 简介](./2020-10-15-introduction-to-arc-orc-in-nim.md)
 * [ ORC 卓越的 GC 算法](./2020-12-08-introducing-orc.md)
 * [ Nim2.0 的成本模型 ](./2022-11-11-a-cost-model-for-nim_cn.md)
