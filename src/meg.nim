@@ -55,8 +55,21 @@ proc pFile(fileName:string):tuple =
     #endFor
   #end with
   result = (cns,engs)
-        
-      
+
+
+import markdown
+
+proc toHtml(s:string): string =
+  # markdown.mar
+  result = markdown.markdown(s)
+  # # 1. import pkg.
+
+
+  # # 2. transform md to html.
+  # let html = markdown("# Hello World\nHappy writing Markdown document!")
+
+  # # 3. do something :)
+  # echo(html)      
 
 proc writeFile(fs:string,fileName:string)=
   withFile(txt, fileName, fmWrite):
@@ -81,6 +94,8 @@ when isMainModule:
 
     var (fs,es) = pFile(localfile)
     writeFile(fs,mmd)
+    # fs  = toHtml(fs)
+    # writeFile(fs,mmd)
     # writeFile(es,mmde)
 
     # pandoc -f markdown -t asciidoc -o 01.adoc m01.md
