@@ -107,7 +107,7 @@ ARC 与 Nim 当前的 `refc` GC 相比的主要优点是（包括我上面提到
 让我们看一个简单的例子：我们有3个对象（A、B、C），每个对象都引用另一个对象，用一个图更好地显示：
 
 <p style="text-align: center;">
-  <img width="256" height="256" src="./Images/cycle.svg">
+  <img width="256" height="256" src="./Images/cycle.png">
 </p>
 
 要查找和收集该循环，我们需要一个**循环收集器** - 这是运行时的一个特殊部分，用于查找和删除程序中不再需要的循环。

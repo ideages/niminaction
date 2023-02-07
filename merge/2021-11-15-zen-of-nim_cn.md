@@ -493,7 +493,7 @@ proc count(s: string, sub: string): int {.noSideEffect.} =
 
 
 
-`cast` 的意思是： `我知道我在做什么，别管我` 。
+`cast` 的意思是： "我知道我在做什么，别管我" 。
 
 ### 异常跟踪
 
