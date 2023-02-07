@@ -18,10 +18,10 @@ About this document
 Nim 析构和移动语义
 ==================================
 
-Authors Andreas Rumpf
-Version 1.6.10
-译文：ideages
-注意：本文是官方文档的一部分
+Authors Andreas Rumpf  
+Version 1.6.10   
+译文：ideages   
+注意：本文是官方文档的一部分   
 
 关于本文档
 ===================
@@ -1333,11 +1333,8 @@ should eventually be replaced by a better solution.
 
 {==+==}
 
-.nodestroy 不析构编译指示
+.nodestroy 不注入析构编译指示
 ========================
-
-The experimental `nodestroy`:idx: pragma inhibits hook injections. This can be
-used to specialize the object traversal in order to avoid deep recursions:
 
 实验性 `nodestroy` 编译指示抑制钩子注入。这可用于特殊对象遍历，以避免深度递归：
 
@@ -1400,7 +1397,7 @@ The abstraction fails for `addr x` because whether the address is going to be us
 
 写入时复制
 =============
-字符串文本实现为 `写时复制` 。将字符串文本分配给变量时，不会创建文本的副本。
+字符串文本实现为"写时复制"。将字符串文本分配给变量时，不会创建文本的副本。
 相反，变量只指向文本。文本在指向它的不同变量之间共享。复制操作将延迟到第一次写入。
 
 For example:
