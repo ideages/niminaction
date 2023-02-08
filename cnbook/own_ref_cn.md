@@ -191,7 +191,7 @@ assert nodes[dangling].data == 4
 ```
 
 
-因此，如果分配器尽可能快地重新使用已处理的内存，我们可以复制与数组版本相同的结果。然而，此机制产生的结果与GC版本不同：
+因此，如果分配器尽可能快地重新使用已处理的内存，我们可以复制与数组版本相同的结果。然而，此机制产生的结果与 GC 版本不同：
 
 {==+==}
 {==+==}
@@ -247,7 +247,8 @@ This is not "cheating" either, for example https://www.usenix.org/legacy/event/s
 The pointer has been called the "goto of data structures" and much like "goto" got replaced by "structured control flow" like if and while statements, maybe ref also needs to be split into different types? The "Ownership You Can Count On" paper proposes such a split.
 {==+==}
 
-
+## 
+指针被称为“数据结构的goto”，很像“goto”被if和while语句等“结构化控制流”所取代，也许ref也需要拆分成不同的类型？《你可以信赖的所有权》一书提出了这样的分割。
 
 {==+==}
 {==+==}
