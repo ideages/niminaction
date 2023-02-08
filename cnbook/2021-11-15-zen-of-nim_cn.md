@@ -44,6 +44,10 @@ excerpt: "Transcript of Zen of Nim presentation at NimConf2021"
 
 # Nim 之禅
 
+作者: Andreas Rumpf (Araq), Pietro Peterlongo
+译者:ideages
+幻灯片:<https://araq.github.io/nimconf2021/htmldocs/zennim.html#(1)>
+
 1. 抄袭糟糕的设计不是好设计。
 2. 如果编译器不能推理代码，程序员也不能推理。
 3. 不要妨碍程序员。
@@ -71,7 +75,7 @@ excerpt: "Transcript of Zen of Nim presentation at NimConf2021"
 
 >**编者按：**
 >
->在最初的演示中，Nim 之禅在结尾处给出（没有编号）。
+>在最初的演讲中，Nim 之禅在结尾处给出（没有编号）。
 >在这里，我们在一开始就提供了 Nim 之禅 的规则，为了便于参考，对其进行了编号。
 >上述规则的讨论是在对语言进行一般性讨论的背景下进行的，没有按照上面的顺序。
 >这里的内容是在原始演示之后呈现的，从幻灯片材料和视频记录开始，经过很少的编辑（这导致了非正式的基调）。
