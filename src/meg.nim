@@ -39,14 +39,19 @@ proc pFile(fileName:string):tuple =
     for lin in txt.lines:
       if lin.strip == secMask:
         secValue = secValue + 1
-      elif secValue == 1:
+
+      if secValue == 1:
         ## secV = 1 and line not mask: is English
         engs.add(lin)
         engs.add("\r\n")
         ## sec is Chinese
       elif secValue == 2:
-        cns.add(lin)
-        cns.add("\r\n")  
+        if lin.strip == secMask:
+          cns.add("\r\n")
+        else:
+          cns.add(lin)
+          cns.add("\r\n")  
+          
       elif secValue == 3:
         # sec End
         engs.add("\r\n")
@@ -57,12 +62,12 @@ proc pFile(fileName:string):tuple =
   result = (cns,engs)
 
 
-import markdown
+# import markdown
 
-proc toHtml(s:string): string =
-  # markdown.mar
-  result = markdown.markdown(s)
-  # # 1. import pkg.
+# proc toHtml(s:string): string =
+#   # markdown.mar
+#   result = markdown.markdown(s)
+#   # # 1. import pkg.
 
 
   # # 2. transform md to html.
@@ -80,9 +85,10 @@ when isMainModule:
   # files = @["SUMMARY_cn.md","index_cn.md","faq_cn.md"]
   # files = @["2020-12-08-introducing-orc_cn","2020-10-15-introduction-to-arc-orc-in-nim_cn"]
   # files = @["09a_cn.adoc","2022-11-11-a-cost-model-for-nim_cn.md"]
-  files = @["nim-memory_cn.adoc","2021-11-15-zen-of-nim_cn.md"]
+  # files = @["nim-memory_cn.adoc","2021-11-15-zen-of-nim_cn.md"]
   # files.add("nim_nogc_cn.md")
-  files.add("destructors_cn.md")
+  # files.add("destructors_cn.md")
+  files.add("own_ref_cn.md")
   # files.add("2021-11-15-zen-of-nim_cn.md")
   for fileName in files:
     # let localfile = "../cnbook/" & fileName & ".md"
